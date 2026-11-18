@@ -1,0 +1,59 @@
+---
+import '@fontsource/instrument-serif/latin-400.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import BrandMark from '../components/BrandMark.astro';
+import { contacts } from '../data/contacts';
+
+interface Props {
+  title: string;
+  description: string;
+  noIndex?: boolean;
+}
+
+const { title, description, noIndex = false } = Astro.props;
+const localPreview = import.meta.env.DEV;
+const path = Astro.url.pathname.replace(/\/$/, '');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="description" content={description} />
+    <meta property="og:site_name" content="Atlas of Invisible Things" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {(localPreview || noIndex) && <meta name="robots" content="noindex" />}
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header shell">
+      <a class="site-name" href="/">Subhasis Jena</a>
+      <nav aria-label="Main navigation">
+        <a href="/work/" aria-current={path === '/work' ? 'page' : undefined}>Work</a>
+        <a href="/#research">Research</a>
+        <a href="/about/" aria-current={path === '/about' ? 'page' : undefined}>About</a>
+        <a href="#contact">Say hello</a>
+      </nav>
+    </header>
+    <main id="main" class="shell" tabindex="-1">
+      <slot />
+    </main>
+    <footer id="contact" class="site-footer" data-surface="dark">
+      <div class="shell footer-inner">
+        <div>
+          <h2>Say hello</h2>
+          <p>Subhasis Jena · Bengaluru</p>
+          <ul class="contact-links">
+            {contacts.map(({ label, href }) => <li><a href={href}>{label} <span aria-hidden="true">↗</span></a></li>)}
+          </ul>
+        </div>
+        <BrandMark />
+      </div>
+    </footer>
+  </body>
+</html>

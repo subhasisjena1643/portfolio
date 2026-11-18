@@ -1,0 +1,77 @@
+---
+import BrandMark from '../components/BrandMark.astro';
+import WorkFigure from '../components/WorkFigure.astro';
+import WorkListing from '../components/WorkListing.astro';
+import { getVisibleWork } from '../data/work';
+import { magneticAssembly, researchNotes } from '../data/research';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = await getVisibleWork();
+const fragments = [
+  ...projects.map(({ slug, title, figure, category }) => ({ title, figure, href: `/work/${slug}/`, label: category })),
+  { title: magneticAssembly.title, figure: magneticAssembly.figure, href: `/research/${magneticAssembly.slug}/`, label: 'Research note' },
+];
+---
+<BaseLayout title="Subhasis Jena · Atlas of Invisible Things" description="Subhasis Jena, designer and creative technologist in Bengaluru. Classroom interfaces, PyTorch tools, and research notes.">
+  <section class="opening" aria-labelledby="name">
+    <div class="introduction">
+      <p class="eyebrow">Atlas of Invisible Things</p>
+      <a class="lockup" href="/">
+        <BrandMark />
+        <h1 id="name">Subhasis Jena</h1>
+      </a>
+      <p class="identity">Designer &amp; creative technologist · Bengaluru</p>
+      <p class="lead">I design interfaces for things that are hard to see. A classroom session becomes a set of observations. PyTorch code becomes a graph you can inspect.</p>
+      {projects.length > 0 && <a class="work-jump" href="#work">Selected work <span aria-hidden="true">↓</span></a>}
+    </div>
+    {fragments.length > 0 && (
+      <ul class="plate" aria-label="Project and research viewfinder" data-crop-plate>
+        {fragments.map(({ figure, href, title, label }) => (
+          <li>
+            <WorkFigure figure={figure} href={href} title={title} label={label} crop eager />
+            {fragments.length > 1 && (
+              <button class="crop-select" type="button" aria-pressed="false" hidden>
+                Focus <span>{title}</span> crop
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+  <WorkListing projects={projects} />
+  <section id="research" class="chapters section-rule" aria-labelledby="research-title">
+    <div class="section-heading"><h2 id="research-title">Research notes</h2></div>
+    <ul class="research-list">
+      {researchNotes.map((note) => (
+        <li>
+          <p class="eyebrow">{note.category}</p>
+          <h3><a href={`/research/${note.slug}/`}>{note.title}</a></h3>
+          <p>{note.question}</p>
+          <p class="chapter-summary">{note.test}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+  <section id="about" class="home-about section-rule" aria-labelledby="about-title">
+    <h2 id="about-title">About</h2>
+    <div>
+      <p>I’m based in Bengaluru. My background in electronics and communication informs how I work across interfaces, model tooling and systems diagnostics.</p>
+      <a href="/about/">More about me <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-crop-plate] .crop-select');
+
+  for (const button of buttons) {
+    button.addEventListener('click', () => {
+      const select = button.getAttribute('aria-pressed') === 'false';
+      for (const option of buttons) {
+        option.setAttribute('aria-pressed', String(option === button && select));
+      }
+    });
+    button.hidden = false;
+  }
+</script>

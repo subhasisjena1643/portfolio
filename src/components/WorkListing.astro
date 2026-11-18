@@ -1,0 +1,64 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'work'>['data'][];
+}
+
+const { projects } = Astro.props;
+const showsMuLMStudio = projects.some(({ slug }) => slug === 'mulm-studio');
+---
+{projects.length > 0 && (
+  <section id="work" class="chapters section-rule" aria-labelledby="work-title">
+    <div class="section-heading">
+      <h2 id="work-title">Featured projects</h2>
+      {projects.some((project) => project.draft) && <span>Includes local drafts</span>}
+    </div>
+    <ol class="chapter-list">
+      {projects.map((project) => (
+        <li class="chapter">
+          <div class="chapter-heading">
+            <p class="eyebrow">{project.category}{project.draft && ' · Draft'}</p>
+            <h3>{project.title}</h3>
+          </div>
+          <div>
+            <p class="chapter-question">{project.question}</p>
+            <p class="chapter-summary">{project.summary}</p>
+          </div>
+          <div class="chapter-links">
+            <a href={`/work/${project.slug}/`}>Read the {project.title} study <span aria-hidden="true">↗</span></a>
+            {project.demo && <a href={project.demo}>Open demo <span aria-hidden="true">↗</span></a>}
+            {project.repository && <a href={project.repository}>{project.repositoryLabel ?? `View ${project.title} on GitHub`} <span aria-hidden="true">↗</span></a>}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+)}
+<section class="compact-entry section-rule" aria-labelledby="crowdvision-title">
+  <div>
+    <p class="eyebrow">Team project · ML evaluation</p>
+    <h2 id="crowdvision-title">CrowdVision</h2>
+  </div>
+  <div>
+    <dl class="project-roles">
+      <div><dt>My role</dt><dd>Machine learning experiments and evaluation</dd></div>
+      <div><dt>My teammates’ role</dt><dd>Frontend and backend development</dd></div>
+    </dl>
+    <p>The team used my evaluation scores. Time constraints kept my ML pipeline out of the final application.</p>
+    <ul class="inline-links">
+      <li><a href="https://github.com/subhasisjena1643/crowdvision">My ML experiments <span aria-hidden="true">↗</span></a></li>
+      <li><a href="https://github.com/Zoroh26/Major-Project">Team application source <span aria-hidden="true">↗</span></a></li>
+    </ul>
+  </div>
+</section>
+<section class="compact-entry section-rule" aria-labelledby="muscope-title">
+  <div>
+    <p class="eyebrow">Currently building</p>
+    <h2 id="muscope-title">MuScope</h2>
+  </div>
+  <div>
+    <p class="compact-lead">Evidence from a program run for coding assistants.</p>
+    <p>Planning and documentation are complete. MuScope is designed to show an assistant which step failed and what the program reported.{showsMuLMStudio && ' MuLM Studio gives people a graph they can inspect while working with PyTorch code.'}</p>
+  </div>
+</section>

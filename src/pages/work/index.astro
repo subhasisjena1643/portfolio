@@ -1,0 +1,21 @@
+---
+import WorkListing from '../../components/WorkListing.astro';
+import { getVisibleWork } from '../../data/work';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const projects = await getVisibleWork();
+---
+<BaseLayout title="Work · Subhasis Jena" description="Featured projects, CrowdVision and MuScope by Subhasis Jena.">
+  <header class="page-heading">
+    <p class="eyebrow">Atlas of Invisible Things</p>
+    <h1>Work</h1>
+    <nav aria-label="On this page">
+      <ul class="inline-links">
+        {projects.length > 0 && <li><a href="#work">Featured projects</a></li>}
+        <li><a href="#crowdvision-title">CrowdVision</a></li>
+        <li><a href="#muscope-title">MuScope</a></li>
+      </ul>
+    </nav>
+  </header>
+  <WorkListing projects={projects} />
+</BaseLayout>

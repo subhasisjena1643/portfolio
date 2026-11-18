@@ -1,0 +1,23 @@
+---
+interface Entry {
+  title: string;
+  slug: string;
+}
+
+interface Props {
+  entries: Entry[];
+  slug: string;
+  section: 'work' | 'research';
+}
+
+const { entries, slug, section } = Astro.props;
+const index = entries.findIndex((entry) => entry.slug === slug);
+const previous = entries[index - 1];
+const next = entries[index + 1];
+---
+{(previous || next) && (
+  <nav class="entry-navigation section-rule" aria-label={section === 'work' ? 'More featured work' : 'More research notes'}>
+    {previous && <a href={`/${section}/${previous.slug}/`} rel="prev"><span>Previous</span>{previous.title}</a>}
+    {next && <a href={`/${section}/${next.slug}/`} rel="next"><span>Next</span>{next.title}</a>}
+  </nav>
+)}

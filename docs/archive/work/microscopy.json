@@ -1,0 +1,27 @@
+{
+  "slug": "microscopy",
+  "order": 2,
+  "title": "Microscopy at REVA",
+  "category": "Research study",
+  "question": "What is visible at one scale that disappears at another?",
+  "summary": "The proposed study pairs a microscope image with an annotated detail to examine an ambiguous boundary.",
+  "role": null,
+  "collaborators": null,
+  "date": null,
+  "version": null,
+  "provenance": [
+    {
+      "source": "docs/Portfolio_Design_Proposal.md",
+      "scope": "Research context and proposed comparison. The lab image and methods are pending."
+    }
+  ],
+  "figure": {
+    "kind": "editorial",
+    "motif": "microscopy",
+    "alt": "An abstract field of pale oval forms with a rectangle marking one area for a closer look.",
+    "caption": "A synthetic field marks an area for closer inspection. No specimen or measurement is represented.",
+    "source": "Original CSS diagram created for this portfolio preview.",
+    "permission": "Local preview only"
+  },
+  "draft": true
+}

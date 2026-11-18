@@ -1,0 +1,51 @@
+{
+  "slug": "microscopy",
+  "order": 2,
+  "title": "Microscopy at REVA",
+  "category": "Research study",
+  "question": "What is visible at one scale that disappears at another?",
+  "summary": "This proposed study pairs a microscope image with a magnified detail. The preview uses a synthetic field to demonstrate one way to examine an ambiguous boundary.",
+  "role": null,
+  "collaborators": null,
+  "date": null,
+  "version": null,
+  "provenance": [
+    {
+      "source": "docs/Portfolio_Design_Proposal.md",
+      "scope": "Research context and proposed comparison. The lab image and methods are pending."
+    }
+  ],
+  "figure": {
+    "kind": "editorial",
+    "motif": "microscopy",
+    "alt": "An abstract field of oval forms with a box around an area for closer inspection.",
+    "caption": "A synthetic field marks an area for closer inspection.",
+    "source": "Original CSS diagram created for this portfolio preview.",
+    "permission": "Local preview only"
+  },
+  "caseStudy": {
+    "layout": "comparison",
+    "scene": {
+      "kind": "editorial",
+      "motif": "microscopy",
+      "alt": "Oval forms are distributed across a synthetic field. A square marks a cluster near the center.",
+      "caption": "The box locates the area shown in the magnified detail.",
+      "source": "Original CSS diagram created for this portfolio preview.",
+      "permission": "Local preview only"
+    },
+    "detail": {
+      "kind": "editorial",
+      "motif": "microscopy-detail",
+      "alt": "The same boxed area is enlarged, showing two oval outlines meeting near the middle.",
+      "caption": "The marked area is shown at twice the display size. Two outlines meet near the center.",
+      "source": "Original CSS diagram created for this portfolio preview.",
+      "permission": "Local preview only"
+    },
+    "decision": {
+      "title": "Keep the area of uncertainty in view",
+      "description": "The box shows exactly where the close-up came from. In the close-up, the outlines are easier to follow, but their meeting point still admits two readings: one continuous boundary or two overlapping edges. The pair gives a reader a location to revisit before tracing a contour."
+    },
+    "limitation": "Both panels use the same synthetic field. The study still needs a cleared image and annotation, documented methods, and an example of ambiguity drawn from the actual material."
+  },
+  "draft": true
+}

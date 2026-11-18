@@ -1,0 +1,62 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import '../styles/illustrations.css';
+
+type EditorialFigure = Extract<CollectionEntry<'work'>['data']['figure'], { kind: 'editorial' }>;
+
+interface Props {
+  motif: EditorialFigure['motif'];
+  alt: string;
+}
+
+const { motif, alt } = Astro.props;
+---
+<div class:list={['illustration', motif]} role="img" aria-label={alt}>
+  {motif === 'classroom' && (
+    <div class="tracking-panel" aria-hidden="true">
+      <div class="panel-label">Session overlay <span>Synthetic</span></div>
+      <div class="track-state"><span>Track 01</span><b>Detected</b></div>
+      <div class="track-state track-missing"><span>Track 01</span><b>Missing · 26 s</b></div>
+    </div>
+  )}
+  {motif === 'classroom-detail' && (
+    <div class="tracking-panel" aria-hidden="true">
+      <div class="panel-label">Session overlay <span>Synthetic</span></div>
+      <div class="track-state"><span>Track 01</span><b>Detected again</b></div>
+      <div class="track-state"><span>Alert</span><b>Cleared</b></div>
+    </div>
+  )}
+  {motif === 'connections' && (
+    <div class="workspace-detail" aria-hidden="true">
+      <span class="edge-shape">[2, 128, 512]</span>
+      <span class="node">Input</span>
+      <span class="connection-line"></span>
+      <span class="node">Attention</span>
+    </div>
+  )}
+  {motif === 'model-scene' && (
+    <div class="graph-scene" aria-hidden="true">
+      <div class="node"><b>PyTorch code</b><span>Edit a model definition</span></div>
+      <span class="graph-arrow">→</span>
+      <div class="node"><b>Trace</b><span>Capture operations and shapes</span></div>
+      <span class="graph-arrow">→</span>
+      <div class="node"><b>Canvas</b><span>Inspect nodes and edges</span></div>
+    </div>
+  )}
+  {motif === 'model-detail' && (
+    <div class="graph-diagnostic" aria-hidden="true">
+      <div class="panel-label">Checks <span>Example</span></div>
+      <p>The projection expects a narrower input.</p>
+      <dl><dt>Output width</dt><dd>128</dd><dt>Expected input width</dt><dd>64</dd></dl>
+    </div>
+  )}
+  {motif === 'magnetic-assembly' && (
+    <div class="assembly-board" aria-hidden="true">
+      <span class="assembly-tile"></span>
+      <span class="assembly-tile"></span>
+      <span class="assembly-tile"></span>
+      <span class="assembly-path"></span>
+      <span class="assembly-tile assembly-loose"></span>
+    </div>
+  )}
+</div>

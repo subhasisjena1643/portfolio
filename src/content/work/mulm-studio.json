@@ -1,0 +1,72 @@
+{
+  "slug": "mulm-studio",
+  "order": 2,
+  "title": "MuLM Studio",
+  "category": "PyTorch workspace · Demo",
+  "question": "What does a PyTorch model look like as a graph you can inspect?",
+  "summary": "In the demo, edit a PyTorch model in the editor. With the tracing backend running, MuLM Studio captures operations and tensor shapes and draws them on the canvas so you can inspect how the model connects.",
+  "demo": "https://demo-eta-rose-13.vercel.app/",
+  "repository": "https://github.com/MuLMStudio/demo",
+  "repositoryLabel": "View demo source",
+  "artifact": {
+    "label": "Inspect the bundled example graph",
+    "href": "https://github.com/MuLMStudio/demo/blob/main/static_demo_graph.json"
+  },
+  "role": "Repository contributor · Diagnostics UI and deployment",
+  "collaborators": [
+    "Santhosh S (diagnostic and deployment commits)"
+  ],
+  "date": null,
+  "version": "MuLMStudio/demo · public repository",
+  "provenance": [
+    {
+      "source": "https://github.com/MuLMStudio/demo/blob/main/README.md",
+      "scope": "Graph tracing, shape propagation and static demo mode."
+    },
+    {
+      "source": "https://github.com/MuLMStudio/demo/commit/e44f7fff6a1c0a1a90a9994409f71ffd810b6e37",
+      "scope": "Checks tab, diagnostic presentation and canvas fixes attributed to Subhasis’s GitHub account."
+    },
+    {
+      "source": "https://github.com/MuLMStudio/demo/blob/main/static_demo_graph.json",
+      "scope": "Bundled transformer graph and the Input to MultiheadAttention edge."
+    }
+  ],
+  "figure": {
+    "kind": "editorial",
+    "motif": "connections",
+    "alt": "Input connects to an attention layer along an edge labeled 2 by 128 by 512.",
+    "caption": "An input edge from the bundled transformer example.",
+    "source": "Original illustration of an edge in the bundled demo graph.",
+    "permission": "Original portfolio illustration"
+  },
+  "caseStudy": {
+    "contribution": {
+      "description": "Subhasis expanded the analysis panel with a Checks tab and plain-language diagnostics, with raw trace data available on demand.",
+      "date": "2026-08-08",
+      "source": "https://github.com/MuLMStudio/demo/commit/e44f7fff6a1c0a1a90a9994409f71ffd810b6e37"
+    },
+    "scene": {
+      "kind": "editorial",
+      "motif": "model-scene",
+      "alt": "Three steps lead from PyTorch model code through a trace with shape metadata to an inspectable graph.",
+      "caption": "With the tracer running, edits to PyTorch model code update the canvas with operations and shapes.",
+      "source": "Original illustration based on the demo README and tracing hook.",
+      "permission": "Original portfolio illustration"
+    },
+    "detail": {
+      "kind": "editorial",
+      "motif": "model-detail",
+      "alt": "A diagnostic compares an output width of 128 with an expected input width of 64.",
+      "caption": "The detail pairs a plain-language explanation with the two widths involved.",
+      "source": "Original illustration of an example shape mismatch based on the demo README.",
+      "permission": "Original portfolio illustration"
+    },
+    "decision": {
+      "title": "Keep the explanation next to the evidence",
+      "description": "In the Checks tab, I put the explanation beside the traced shape values. In this example, the projection expects an input width of 64 and receives 128. Seeing both values helps the reader decide which layer to inspect."
+    },
+    "limitation": "The repository also includes a static mode that loads a precomputed graph. Live updates from new code use the tracing backend. The mismatch widths above are illustrative."
+  },
+  "draft": false
+}

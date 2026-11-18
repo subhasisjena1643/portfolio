@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import EditorialArt from './EditorialArt.astro';
+
+interface Props {
+  figure: CollectionEntry<'work'>['data']['figure'];
+  eager?: boolean;
+  crop?: boolean;
+  href?: string;
+  title?: string;
+  label?: string;
+}
+
+const { figure, eager = false, crop = false, href, title, label } = Astro.props;
+---
+<figure class:list={['work-figure', { 'crop-figure': crop }]}>
+  <div class="aperture">
+    {figure.kind === 'editorial' ? (
+      <EditorialArt motif={figure.motif} alt={figure.alt} />
+    ) : (
+      <Image src={figure.image} alt={figure.alt} loading={eager ? 'eager' : 'lazy'} />
+    )}
+  </div>
+  <figcaption>
+    {label && <strong class="figure-label">{label}</strong>}
+    {href && <a class="project-link" href={href}>{title}&#160;<span aria-hidden="true">↗</span></a>}
+    <p>
+      {figure.kind === 'editorial' && <><strong>Editorial illustration</strong> · </>}
+      {figure.caption}
+    </p>
+  </figcaption>
+</figure>

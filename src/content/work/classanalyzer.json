@@ -1,0 +1,63 @@
+{
+  "slug": "classanalyzer",
+  "order": 1,
+  "title": "ClassAnalyzer",
+  "category": "Classroom analysis",
+  "question": "How can someone make sense of a classroom session through the interface?",
+  "summary": "ClassAnalyzer is a classroom observation prototype. Its camera overlay keeps a tracking ID in view and starts a countdown if the track goes missing. The countdown gives a reviewer a concrete moment to check.",
+  "repository": "https://github.com/subhasisjena1643/classanalyzer",
+  "artifact": {
+    "label": "View tracking overlay source",
+    "href": "https://github.com/subhasisjena1643/classanalyzer/blob/main/utils/enhanced_tracking_overlay.py"
+  },
+  "role": "Repository contributor · Cross-platform CI",
+  "collaborators": null,
+  "date": null,
+  "version": "Public PIPER repository",
+  "provenance": [
+    {
+      "source": "https://github.com/subhasisjena1643/classanalyzer/blob/main/README.md",
+      "scope": "Project scope and intended processing model."
+    },
+    {
+      "source": "https://github.com/subhasisjena1643/classanalyzer/commit/18d1a3f051a93616aadf320524ce47598f51ff92",
+      "scope": "Cross-platform CI changes under Subhasis’s public GitHub account."
+    },
+    {
+      "source": "https://github.com/subhasisjena1643/classanalyzer/blob/main/utils/enhanced_tracking_overlay.py",
+      "scope": "Tracking IDs, missing-track countdown, and recovery on a match."
+    }
+  ],
+  "figure": {
+    "kind": "editorial",
+    "motif": "classroom",
+    "alt": "Two mock overlay states show the same fictional track first detected, then missing with a countdown.",
+    "caption": "A synthetic example of one tracking ID across two overlay states.",
+    "source": "Original illustration based on the public tracking overlay.",
+    "permission": "Original portfolio illustration"
+  },
+  "caseStudy": {
+    "scene": {
+      "kind": "editorial",
+      "motif": "classroom",
+      "alt": "A mock overlay shows Track 01 as detected, then missing with 26 seconds left on the countdown.",
+      "caption": "The camera overlay can start a 30-second alert when a detection drops out. The example uses a fictional track and time remaining.",
+      "source": "Original illustration based on the public tracking overlay.",
+      "permission": "Original portfolio illustration"
+    },
+    "detail": {
+      "kind": "editorial",
+      "motif": "classroom-detail",
+      "alt": "Track 01 is detected again and its alert is cleared in the synthetic example.",
+      "caption": "In this synthetic sequence, the tracker finds a match and clears the alert for the same ID.",
+      "source": "Original illustration based on the public tracking overlay.",
+      "permission": "Original portfolio illustration"
+    },
+    "decision": {
+      "title": "Give a dropped track a visible state",
+      "description": "The overlay uses a tracking ID and a countdown to make the gap visible. When the tracker matches a detection to that ID again, it clears the alert. A reviewer can distinguish that gap from a continuous observation."
+    },
+    "limitation": "Tracking IDs and countdowns are model observations. A gap could reflect occlusion, someone moving out of frame, or a tracking error. The example uses fictional data."
+  },
+  "draft": false
+}

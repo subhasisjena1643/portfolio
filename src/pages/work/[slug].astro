@@ -1,0 +1,76 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import EntryNavigation from '../../components/EntryNavigation.astro';
+import WorkFigure from '../../components/WorkFigure.astro';
+import { getVisibleWork } from '../../data/work';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export const getStaticPaths = (async () => {
+  const projects = await getVisibleWork();
+  const entries = projects.map(({ title, slug }) => ({ title, slug }));
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project, entries } }));
+}) satisfies GetStaticPaths;
+
+const { project, entries } = Astro.props as InferGetStaticPropsType<typeof getStaticPaths>;
+const { caseStudy } = project;
+const contribution = caseStudy?.contribution;
+const isComparison = caseStudy?.layout === 'comparison';
+---
+<BaseLayout title={`${project.title} · Subhasis Jena`} description={project.summary}>
+  <article class:list={['study', { 'study-spread': caseStudy }]}>
+    <a class="study-back" href="/work/">← Featured work</a>
+    <header class="study-header">
+      <div>
+        <p class="eyebrow">{project.category}{project.draft && ' · Local draft preview'}</p>
+        <h1>{project.title}</h1>
+        <p class="study-question">{project.question}</p>
+        <p>{project.summary}</p>
+        {(project.demo || project.repository || project.artifact) && <ul class="inline-links">
+          {project.demo && <li><a href={project.demo}>Open demo <span aria-hidden="true">↗</span></a></li>}
+          {project.repository && <li><a href={project.repository}>{project.repositoryLabel ?? `View ${project.title} on GitHub`} <span aria-hidden="true">↗</span></a></li>}
+          {project.artifact && <li><a href={project.artifact.href}>{project.artifact.label} <span aria-hidden="true">↗</span></a></li>}
+        </ul>}
+      </div>
+      {(contribution || project.role || project.draft || project.collaborators?.length || project.date) && <aside class="study-attribution" aria-labelledby="credit-title">
+        <h2 id="credit-title">{contribution || project.role || project.draft ? 'Contribution' : 'Credits'}</h2>
+        {contribution ? (
+          <>
+            <p>{contribution.description}</p>
+            <p class="contribution-date"><time datetime={contribution.date}>{
+              new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeZone: 'UTC' })
+                .format(new Date(contribution.date))
+            }</time> · <a href={contribution.source}>Public commit</a></p>
+            <p><a href="#detail-title">See the design decision <span aria-hidden="true">↓</span></a></p>
+          </>
+        ) : (project.role || project.draft) && <p>{project.role ?? 'Role awaiting confirmation'}</p>}
+        {(project.collaborators?.length || project.draft || project.date) && <dl>
+          {(project.collaborators?.length || project.draft) && <>
+            <dt>Collaborators</dt>
+            <dd>{project.collaborators?.join(', ') || 'Awaiting confirmation'}</dd>
+          </>}
+          {project.date && <><dt>Project date</dt><dd><time datetime={project.date}>{project.date}</time></dd></>}
+        </dl>}
+      </aside>}
+    </header>
+    {caseStudy ? (
+      <>
+        {isComparison ? (
+          <section class="study-comparison" aria-label="Overview and magnified detail">
+            <WorkFigure figure={caseStudy.scene} eager label="Overview" />
+            <WorkFigure figure={caseStudy.detail} label="Magnified detail" />
+          </section>
+        ) : <WorkFigure figure={caseStudy.scene} eager />}
+        <section class="study-detail section-rule" aria-labelledby="detail-title">
+          <div>
+            {!isComparison && <p class="eyebrow">{contribution ? 'Design decision' : 'Interface behavior'}</p>}
+            <h2 id="detail-title">{caseStudy.decision.title}</h2>
+            <p>{caseStudy.decision.description}</p>
+          </div>
+          {!isComparison && <WorkFigure figure={caseStudy.detail} />}
+        </section>
+        <p class="study-limitation section-rule">{caseStudy.limitation}</p>
+      </>
+    ) : <WorkFigure figure={project.figure} eager />}
+    <EntryNavigation entries={entries} slug={project.slug} section="work" />
+  </article>
+</BaseLayout>

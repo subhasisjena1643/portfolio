@@ -1,0 +1,48 @@
+@font-face {
+  font-family: 'Manrope Variable';
+  src: url('@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+:root {
+  --palette-canvas: #f3f1eb;
+  --palette-ink: #18211f;
+  --palette-muted: #57605b;
+  --palette-surface: #e8eadf;
+  --palette-rule: #cdd0c6;
+  --palette-blue: #2348d8;
+  --palette-clay: #a3442d;
+
+  --bg: var(--palette-canvas);
+  --text: var(--palette-ink);
+  --text-muted: var(--palette-muted);
+  --surface: var(--palette-surface);
+  --rule: var(--palette-rule);
+  --logo: var(--text);
+  --link: var(--text);
+  --control-border: var(--text-muted);
+  --focus: var(--text);
+  --accent: var(--palette-blue);
+  --annotation: var(--palette-clay);
+
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Manrope Variable', system-ui, sans-serif;
+  --content-max: 90rem;
+  --gutter: clamp(1.25rem, 4vw, 4.5rem);
+}
+
+[data-surface='dark'] {
+  --bg: var(--palette-ink);
+  --text: var(--palette-canvas);
+  --text-muted: var(--palette-rule);
+  --surface: #26312d;
+  --rule: #65736b;
+  --logo: var(--text);
+  --link: var(--text);
+  --control-border: var(--text-muted);
+  --focus: var(--text);
+  --accent: var(--text);
+  --annotation: var(--text-muted);
+}
