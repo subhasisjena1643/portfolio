@@ -1,3 +1,5 @@
+import {publicLink} from './links';
 export const contacts = [
-  { label: 'GitHub', href: 'https://github.com/subhasisjena1643' },
+  { label: 'LinkedIn', href: publicLink('ATLAS_LINKEDIN_URL') },
+  { label: 'GitHub', href: publicLink('ATLAS_GITHUB_URL') },
 ];

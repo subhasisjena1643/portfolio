@@ -1,0 +1,20 @@
+---
+interface Props { terminal?: boolean; destination: string }
+const { terminal = false, destination } = Astro.props;
+---
+<a class="edition-slide" href={destination} data-edition={terminal ? 'cli' : 'paper'}>
+  <span aria-hidden="true">{terminal ? '←' : '>_'}</span>{terminal ? 'Portfolio' : 'Terminal'}
+</a>
+<script src="../scripts/edition-slide.ts"></script>
+<style>
+.edition-slide{display:inline-flex;align-items:center;gap:.45rem;font:600 .85rem monospace;text-decoration:none;color:inherit;min-height:44px}.edition-slide:hover{text-decoration:underline}
+</style>
+<style is:global>
+body:has(.edition-slide){touch-action:pan-y pinch-zoom;overflow-x:clip}
+.edition-curtain{--cut:100%;position:fixed;inset:0;z-index:70;pointer-events:none;contain:strict;clip-path:inset(0 0 0 var(--cut));padding:clamp(1.25rem,4vw,4rem);background:#101111;color:#cfddca;font:1rem/1.6 Consolas,monospace}
+.edition-curtain[data-paper]{clip-path:inset(0 var(--cut) 0 0);background:#f3f1eb;color:#18211f}
+.edition-curtain[hidden]{display:none}.edition-curtain span{display:block;position:absolute;right:clamp(1.25rem,4vw,4rem);top:42%;font-size:clamp(1.1rem,3vw,2.4rem)}
+.edition-curtain[data-paper] span{right:auto;left:clamp(1.25rem,4vw,4rem);font:clamp(2rem,6vw,5rem)/1 Georgia,serif}
+.edition-dragging{user-select:none;cursor:grabbing}
+@media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-new(*),::view-transition-old(*){animation:none!important}}
+</style>

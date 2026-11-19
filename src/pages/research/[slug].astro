@@ -1,7 +1,6 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
 import EntryNavigation from '../../components/EntryNavigation.astro';
-import WorkFigure from '../../components/WorkFigure.astro';
 import { researchNotes } from '../../data/research';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
@@ -15,14 +14,13 @@ const { note } = Astro.props as InferGetStaticPropsType<typeof getStaticPaths>;
     <header class="study-header">
       <div>
         <p class="eyebrow">{note.category}</p>
-        <h1>{note.title}</h1>
+        <h1 style={{viewTransitionName: 'research-'+note.slug}}>{note.title}</h1>
         <p class="study-question">{note.question}</p>
         <p>{note.summary}</p>
       </div>
     </header>
-    {note.figure && <WorkFigure figure={note.figure} eager />}
     <section class="research-test section-rule" aria-labelledby="test-title">
-      <h2 id="test-title">Proposed test</h2>
+      <h2 id="test-title">Next experiment</h2>
       <p>{note.test}</p>
     </section>
     <EntryNavigation entries={researchNotes} slug={note.slug} section="research" />

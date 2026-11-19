@@ -1,43 +1,29 @@
 ---
-import BrandMark from '../components/BrandMark.astro';
-import WorkFigure from '../components/WorkFigure.astro';
+export const prerender=false;
+import {getEntries} from '../data/journal';
+const entries=getEntries();
+import OpeningPlate from '../components/OpeningPlate.astro';
+
 import WorkListing from '../components/WorkListing.astro';
 import { getVisibleWork } from '../data/work';
 import { magneticAssembly, researchNotes } from '../data/research';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const projects = await getVisibleWork();
-const fragments = [
-  ...projects.map(({ slug, title, figure, category }) => ({ title, figure, href: `/work/${slug}/`, label: category })),
-  { title: magneticAssembly.title, figure: magneticAssembly.figure, href: `/research/${magneticAssembly.slug}/`, label: 'Research note' },
-];
+const classroom = projects.find(p => p.slug === 'classanalyzer');
+const studio = projects.find(p => p.slug === 'mulm-studio');
 ---
-<BaseLayout title="Subhasis Jena · Atlas of Invisible Things" description="Subhasis Jena, designer and creative technologist in Bengaluru. Classroom interfaces, PyTorch tools, and research notes.">
-  <section class="opening" aria-labelledby="name">
-    <div class="introduction">
-      <p class="eyebrow">Atlas of Invisible Things</p>
-      <a class="lockup" href="/">
-        <BrandMark />
-        <h1 id="name">Subhasis Jena</h1>
-      </a>
-      <p class="identity">Designer &amp; creative technologist · Bengaluru</p>
-      <p class="lead">I design interfaces for things that are hard to see. A classroom session becomes a set of observations. PyTorch code becomes a graph you can inspect.</p>
-      {projects.length > 0 && <a class="work-jump" href="#work">Selected work <span aria-hidden="true">↓</span></a>}
+<BaseLayout title="Subhasis Jena · Atlas of Invisible Things" description="Subhasis Jena designs interfaces for things that are hard to see. Explore ClassAnalyzer, MuLM Studio, and research notes.">
+  <section class="cover" aria-labelledby="name">
+    <div class="cover-heading">
+      <h1 id="name">Subhasis Jena</h1>
+      <div class="cover-intro">
+        <p class="cover-statement">I design interfaces for things that are hard to see.</p>
+        <p class="cover-context">A classroom session, a model’s data flow, or the evidence behind a system failure.</p>
+        {projects.length > 0 && <a class="cover-work-link" href="#work">View selected work</a>}
+      </div>
     </div>
-    {fragments.length > 0 && (
-      <ul class="plate" aria-label="Project and research viewfinder" data-crop-plate>
-        {fragments.map(({ figure, href, title, label }) => (
-          <li>
-            <WorkFigure figure={figure} href={href} title={title} label={label} crop eager />
-            {fragments.length > 1 && (
-              <button class="crop-select" type="button" aria-pressed="false" hidden>
-                Focus <span>{title}</span> crop
-              </button>
-            )}
-          </li>
-        ))}
-      </ul>
-    )}
+    <OpeningPlate {classroom} {studio} research={magneticAssembly} />
   </section>
   <WorkListing projects={projects} />
   <section id="research" class="chapters section-rule" aria-labelledby="research-title">
@@ -46,13 +32,15 @@ const fragments = [
       {researchNotes.map((note) => (
         <li>
           <p class="eyebrow">{note.category}</p>
-          <h3><a href={`/research/${note.slug}/`}>{note.title}</a></h3>
+          <h3 style={{viewTransitionName: 'research-'+note.slug}}><a href={`/research/${note.slug}/`}>{note.title}</a></h3>
           <p>{note.question}</p>
           <p class="chapter-summary">{note.test}</p>
         </li>
       ))}
     </ul>
   </section>
+  <section class="notebook section-rule" aria-label="Journal"><div><p class="imprint">Journal</p><a href="/journal/">All entries</a></div>
+    {entries[0] && <article><p class="eyebrow">{entries[0].category} · <time>{entries[0].date}</time></p><h2><a href={`/journal/${entries[0].slug}/`} style={{ viewTransitionName: 'entry-'+entries[0].slug }}>{entries[0].title}</a></h2><p>{entries[0].excerpt}</p></article>}</section>
   <section id="about" class="home-about section-rule" aria-labelledby="about-title">
     <h2 id="about-title">About</h2>
     <div>
@@ -61,17 +49,3 @@ const fragments = [
     </div>
   </section>
 </BaseLayout>
-
-<script>
-  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-crop-plate] .crop-select');
-
-  for (const button of buttons) {
-    button.addEventListener('click', () => {
-      const select = button.getAttribute('aria-pressed') === 'false';
-      for (const option of buttons) {
-        option.setAttribute('aria-pressed', String(option === button && select));
-      }
-    });
-    button.hidden = false;
-  }
-</script>

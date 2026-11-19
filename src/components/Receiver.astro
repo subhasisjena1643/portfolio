@@ -1,0 +1,60 @@
+---
+import CommandGuide from './CommandGuide.astro';
+---
+<CommandGuide />
+<dialog id="receiver" aria-labelledby="receiver-title"><div class="radio-head"><span>ATLAS / SHORTWAVE</span><button type="button" id="hangup" aria-label="Close receiver">×</button></div><h2 id="receiver-title">Piper</h2><p>Ask about Subhasis or pick a frequency.</p>
+<div class="presets"><button type="button" id="tour">Give me a tour</button>{['MuLM Studio','Research','Arcade'].map(topic=><button type="button" data-preset={topic}>{topic}</button>)}</div>
+<form id="piper-query"><label for="radio-query">Your question</label><input id="radio-query" maxlength="400" required autocomplete="off"/><button>Transmit</button></form>
+<div id="tour-stop" hidden><small id="tour-count"></small><p id="tour-text"></p><a id="tour-link" href="/">Open stop</a> <button type="button" id="tour-next">Next stop</button></div>
+<div id="transcript" role="log" aria-live="polite"></div>
+</dialog>
+<dialog id="access"><form id="unlock"><label for="key-input">Passphrase</label><input type="password" autocomplete="off" id="key-input" maxlength="512" required/><button>Continue</button><button type="button" id="dismiss">Close</button><output aria-live="polite"></output></form></dialog>
+<script>
+import {gatePath,piperPath} from '../data/api-paths';
+const dialog=document.querySelector<HTMLDialogElement>('#receiver')!;
+const access=document.querySelector<HTMLDialogElement>('#access')!;
+const formKey=document.querySelector<HTMLFormElement>('#unlock')!;
+const input=formKey.querySelector('input')!;
+const label=formKey.querySelector('label')!;
+const query=document.querySelector<HTMLInputElement>('#radio-query')!;
+let phase='discover';
+function enter(){if(document.querySelector('dialog[open]'))return;phase='discover';label.textContent='Passphrase';formKey.querySelector('output')!.textContent='';input.value='';access.showModal();input.focus()}
+window.addEventListener('keydown',e=>{if(e.ctrlKey&&e.altKey&&e.code==='Space'){e.preventDefault();enter()}});
+let hold=0;
+document.addEventListener('pointerdown',e=>{if((e.target as HTMLElement).closest('h1,.site-name,[data-device]'))hold=window.setTimeout(enter,1100)});
+for(const type of ['pointerup','pointercancel','scroll'])window.addEventListener(type,()=>clearTimeout(hold),true);
+document.querySelector('#dismiss')!.addEventListener('click',()=>access.close());
+access.onclose=()=>{input.value='';phase='discover'};
+formKey.onsubmit=async e=>{e.preventDefault();const submit=formKey.querySelector('button')!;submit.disabled=true;
+ try{const value=input.value;input.value='';const res=await fetch(gatePath,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:phase,value})});const data=await res.json();
+ if(data.url){location.assign(data.url);return}if(data.receiver){access.close();dialog.showModal();return}
+ if(data.question){phase='answer';label.textContent=data.question}else if(data.password){phase='password';label.textContent='Publishing password'}else{phase='discover';label.textContent='Passphrase'}
+ formKey.querySelector('output')!.textContent=data.error||(!res.ok?'No signal.':'');input.focus();
+ }catch{formKey.querySelector('output')!.textContent='Connection unavailable.'}finally{submit.disabled=false}};
+document.querySelector('#hangup')!.addEventListener('click',()=>dialog.close());
+const tour=[
+ {title:'MuLM Studio',path:'/work/mulm-studio/',note:'Follow a PyTorch model from code to graph. The Checks tab shows the widths on either side of a connection.'},
+ {title:'Programmable Magnetic Assembly',path:'/research/programmable-magnetic-assembly/',note:'Next, change scale. Follow the proposed experiment from a single magnetic unit to a planar structure.'},
+ {title:'The journal',path:'/journal/',note:'Finish at the notebook, where new progress posts and research entries appear.'}
+];
+let stop=0;
+const tourBox=document.querySelector<HTMLElement>('#tour-stop')!;
+function renderStop(){
+ const item=tour[stop];tourBox.hidden=false;document.querySelector('#tour-count')!.textContent='PIPER’S ROUTE  /  '+(stop+1)+' OF '+tour.length;
+ document.querySelector('#tour-text')!.textContent=item.note;const link=document.querySelector<HTMLAnchorElement>('#tour-link')!;link.href=item.path;link.textContent='Visit '+item.title;
+ document.querySelector('#tour-next')!.textContent=stop===tour.length-1?'Finish tour':'Next stop';
+}
+document.querySelector('#tour')!.addEventListener('click',()=>{stop=0;renderStop()});
+document.querySelector('#tour-link')!.addEventListener('click',()=>{try{sessionStorage.setItem('atlas-tour-stop',String(stop+1))}catch{}});
+document.querySelector('#tour-next')!.addEventListener('click',()=>{if(++stop>=tour.length){tourBox.hidden=true;return}renderStop()});
+try{const saved=sessionStorage.getItem('atlas-tour-stop');if(saved!==null){sessionStorage.removeItem('atlas-tour-stop');stop=Number(saved);if(tour[stop])renderStop()}}catch{}
+let previousSource='';
+const form=document.querySelector<HTMLFormElement>('#piper-query')!;
+document.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach(b=>b.onclick=()=>{query.value=b.dataset.preset!;form.requestSubmit()});
+form.onsubmit=async e=>{e.preventDefault();const btn=form.querySelector('button')!;if(btn.disabled)return;btn.disabled=true;const transcript=document.querySelector('#transcript')!;const q=document.createElement('strong');q.textContent=query.value;const a=document.createElement('p');a.textContent='Tuning…';transcript.append(q,a);try{const res=await fetch(piperPath,{method:'POST',headers:previousSource?{'x-portfolio-source':previousSource}:{},body:query.value});query.value='';const result=await res.json();a.textContent=result.text||'Signal unavailable.';if(result.url){previousSource=result.url;const link=document.createElement('a');link.href=result.url;link.textContent='Open '+result.title;a.append(' ',link)}}catch{a.textContent='Signal unavailable.'}finally{btn.disabled=false;a.scrollIntoView({block:'nearest'})}};
+</script>
+<style>
+#access{color:#ececde;background:#182126;border:1px solid #80938c;padding:1.25rem}#access::backdrop{background:#101923aa}#unlock{display:grid;gap:.65rem}#unlock :is(input,button){padding:.6rem;font:inherit}
+.receiver-word{font:inherit;color:inherit;cursor:pointer;border:0;background:none;text-decoration:underline;text-underline-offset:.22em;padding:.5rem 0}
+#receiver{background:#121c24;color:#f3efdb;border:1px solid #8cb6a9;padding:clamp(1rem,4vw,2rem);width:min(92vw,32rem);max-height:88dvh;box-shadow:8px 8px 0 #142d2c;font:1rem/1.5 system-ui}#receiver::backdrop{background:#101923aa;backdrop-filter:blur(6px)}.radio-head{display:flex;align-items:center;justify-content:space-between;font:.78rem monospace;letter-spacing:.12em;color:#a3e4ce}#receiver h2{font:italic 3.5rem Georgia;margin:0}#receiver button{cursor:pointer;background:#bce7d6;color:#162326;border:0;padding:.55rem .8rem;font:inherit}#receiver form{display:grid;gap:.5rem;margin:1rem 0}#receiver input{font:inherit;padding:.65rem;background:#0d141e;color:white;border:1px solid #70867e}.presets{display:flex;gap:.35rem;flex-wrap:wrap}#receiver summary{cursor:pointer;color:#bfd2ca}#transcript{max-height:14rem;overflow:auto} #tour-stop{border-block:1px solid #557268;padding:.8rem 0}#tour-stop a{color:#c1e9d4}#tour-stop small{color:#a3e4ce}#transcript a{color:#bce7d6}#transcript p{margin-top:.3rem}
+</style>

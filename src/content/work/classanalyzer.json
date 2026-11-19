@@ -1,30 +1,32 @@
 {
   "slug": "classanalyzer",
-  "order": 1,
+  "order": 2,
   "title": "ClassAnalyzer",
-  "category": "Classroom analysis",
-  "question": "How can someone make sense of a classroom session through the interface?",
-  "summary": "ClassAnalyzer is a classroom observation prototype. Its camera overlay keeps a tracking ID in view and starts a countdown if the track goes missing. The countdown gives a reviewer a concrete moment to check.",
-  "repository": "https://github.com/subhasisjena1643/classanalyzer",
+  "category": "Classroom observation prototype",
+  "question": "What should an overlay show when it loses a classroom track?",
+  "summary": "In this synthetic classroom sequence, Track 01 is still unmatched four seconds into a 30-second alert. The countdown reads 26 seconds.",
+  "repository": "ATLAS_CLASSANALYZER_REPO_URL",
   "artifact": {
     "label": "View tracking overlay source",
-    "href": "https://github.com/subhasisjena1643/classanalyzer/blob/main/utils/enhanced_tracking_overlay.py"
+    "href": "ATLAS_CLASSANALYZER_ARTIFACT_URL"
   },
-  "role": "Repository contributor · Cross-platform CI",
-  "collaborators": null,
+  "role": "I contributed cross-platform CI to the ClassAnalyzer repository.",
+  "collaborators": [
+    "ClassAnalyzer project team (tracking overlay and classroom prototype)"
+  ],
   "date": null,
   "version": "Public PIPER repository",
   "provenance": [
     {
-      "source": "https://github.com/subhasisjena1643/classanalyzer/blob/main/README.md",
+      "source": "ATLAS_CLASSANALYZER_README_URL",
       "scope": "Project scope and intended processing model."
     },
     {
-      "source": "https://github.com/subhasisjena1643/classanalyzer/commit/18d1a3f051a93616aadf320524ce47598f51ff92",
+      "source": "ATLAS_CLASSANALYZER_COMMIT_URL",
       "scope": "Cross-platform CI changes under Subhasis’s public GitHub account."
     },
     {
-      "source": "https://github.com/subhasisjena1643/classanalyzer/blob/main/utils/enhanced_tracking_overlay.py",
+      "source": "ATLAS_CLASSANALYZER_ARTIFACT_URL",
       "scope": "Tracking IDs, missing-track countdown, and recovery on a match."
     }
   ],
@@ -41,7 +43,7 @@
       "kind": "editorial",
       "motif": "classroom",
       "alt": "A mock overlay shows Track 01 as detected, then missing with 26 seconds left on the countdown.",
-      "caption": "The camera overlay can start a 30-second alert when a detection drops out. The example uses a fictional track and time remaining.",
+      "caption": "Synthetic classroom moment. The overlay preserves the track ID at 26 seconds so a reviewer can locate the gap in the session.",
       "source": "Original illustration based on the public tracking overlay.",
       "permission": "Original portfolio illustration"
     },
@@ -54,10 +56,11 @@
       "permission": "Original portfolio illustration"
     },
     "decision": {
-      "title": "Give a dropped track a visible state",
-      "description": "The overlay uses a tracking ID and a countdown to make the gap visible. When the tracker matches a detection to that ID again, it clears the alert. A reviewer can distinguish that gap from a continuous observation."
+      "title": "Keep the gap visible",
+      "description": "Keep the last tracked ID on screen and show how long the alert has left. Clear it when a matching detection returns. The visible state describes what the tracker observed and leaves the cause of the gap open for review."
     },
-    "limitation": "Tracking IDs and countdowns are model observations. A gap could reflect occlusion, someone moving out of frame, or a tracking error. The example uses fictional data."
+    "limitation": "Tracking IDs and countdowns are model observations. A gap could reflect occlusion, someone moving out of frame, or a tracking error. The example uses fictional data.",
+    "learning": "A countdown gives a reviewer a place to look in the session. The missing state can reflect occlusion, movement out of frame, or a tracking error. Track state alone provides no basis for judging attendance, attention, or engagement."
   },
   "draft": false
 }

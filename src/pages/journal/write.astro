@@ -1,0 +1,41 @@
+---
+export const prerender=false;
+import {valid} from '../../server/store';
+Astro.response.headers.set('Cache-Control','private, no-store');
+if(!valid(Astro.cookies.get('atlas_owner')?.value,'owner'))return new Response('Not found',{status:404,headers:{'Cache-Control':'no-store'}});
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout noIndex title="Writing desk · Journal" description="Local journal editor">
+<section class="desk"><a href="/journal/">Journal</a><h1>Writing desk</h1>
+<form id="editor">
+<label>Title<input name="title" maxlength="120" required /></label>
+<label>Section<select name="category"><option>Progress</option><option>Essay</option><option>Research</option><option>Watching</option><option>Reading</option><option>Playing</option><option>Thought</option><option>Recommendation</option></select></label>
+<label>Short introduction<textarea name="excerpt" rows="2" maxlength="240" required></textarea></label>
+<label>Entry<textarea name="body" rows="12" maxlength="60000" required></textarea></label>
+<p>Publish adds the entry to both editions of the journal immediately.</p>
+<button>Publish entry</button><output aria-live="polite"></output></form><button id="signout">End session</button>
+</section></BaseLayout>
+<script>
+import {gatePath} from '../../data/api-paths';
+document.querySelector('#signout')?.addEventListener('click',async()=>{await fetch(gatePath,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout'})});location.replace('/journal/')});
+const form=document.querySelector<HTMLFormElement>('#editor');
+if(form){
+ function showSaved(url:string){const link=document.createElement('a');link.href=url;link.textContent='Open saved entry';form?.querySelector('output')?.replaceChildren(link)}
+ try{const last=sessionStorage.getItem('atlas-last-entry');if(last)showSaved(last)}catch{}
+ const draftKey='atlas-journal-draft';
+ try { for(const [name,value] of Object.entries(JSON.parse(localStorage.getItem(draftKey)||'{}'))) {const el=form.elements.namedItem(name) as HTMLInputElement;if(el)el.value=String(value);} } catch {}
+ form.oninput=()=>{try {localStorage.setItem(draftKey,JSON.stringify(Object.fromEntries(new FormData(form))))} catch {}};
+ form.onsubmit=async event=>{
+   event.preventDefault();
+   const button=form.querySelector('button')!;button.disabled=true;
+   const status=form.querySelector('output')!;
+   try {
+    const res=await fetch(gatePath,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'publish',...Object.fromEntries(new FormData(form))})});
+    if(!res.ok)throw Error(await res.text() || 'Could not save this entry.');
+    const {url}=await res.json();try{localStorage.removeItem(draftKey)}catch{}
+    try{sessionStorage.setItem('atlas-last-entry',url)}catch{} showSaved(url);
+    form.reset();
+   }catch(err){status.textContent=err instanceof Error?err.message:'Save failed.'}finally{button.disabled=false}
+ };
+}
+</script>

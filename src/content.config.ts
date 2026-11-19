@@ -2,6 +2,8 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+import { resolveContentLink } from './data/links';
+const link = z.string().transform(resolveContentLink).pipe(z.url());
 const work = defineCollection({
   loader: glob({ base: './src/content/work', pattern: '*.json' }),
   schema: ({ image }) => {
@@ -31,27 +33,29 @@ const work = defineCollection({
       category: z.string(),
       question: z.string(),
       summary: z.string(),
-      demo: z.url().optional(),
-      repository: z.url().optional(),
+      demo: link.optional(),
+      repository: link.optional(),
       repositoryLabel: z.string().optional(),
-      artifact: z.object({ label: z.string(), href: z.url() }).optional(),
+      artifact: z.object({ label: z.string(), href: link }).optional(),
       role: z.string().nullable(),
       collaborators: z.array(z.string()).nullable(),
       date: z.iso.date().nullable(),
       version: z.string().nullable(),
-      provenance: z.array(z.object({ source: z.string(), scope: z.string() })),
+      provenance: z.array(z.object({ source: link, scope: z.string() })),
       figure,
       caseStudy: z.object({
         layout: z.enum(['spread', 'comparison']).default('spread'),
         contribution: z.object({
           description: z.string(),
           date: z.iso.date(),
-          source: z.url(),
+          source: link,
         }).optional(),
         scene: figure,
         detail: figure,
         decision: z.object({ title: z.string(), description: z.string() }),
         limitation: z.string(),
+        learning: z.string().optional(),
+        planned: z.string().optional(),
       }).optional(),
       draft: z.boolean(),
     }).refine(({ draft, figure, caseStudy }) =>

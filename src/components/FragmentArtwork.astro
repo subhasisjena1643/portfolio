@@ -1,0 +1,35 @@
+---
+import '../styles/opening-plate.css';
+import '../styles/opening-evidence.css';
+interface Props { kind: 'classroom' | 'studio' }
+const { kind } = Astro.props;
+---
+{kind === 'classroom' ? (
+  <div class="fragment-image fragment-timeline" role="img" aria-label="Synthetic timeline for Track 01. The tracker detects a face, shows 26 seconds remaining after the match is lost, then finds a matching detection and clears the alert.">
+    <div class="timeline-readout" aria-hidden="true">
+      <span>Track 01 · Missing</span>
+      <strong>26<small> s</small></strong>
+    </div>
+    <div class="timeline-note evidence-note" aria-hidden="true">
+      <strong>00:04 into alert</strong>
+      <span>Track 01 still unmatched.</span>
+    </div>
+    <ol class="timeline-states" aria-hidden="true">
+      <li>Detected</li>
+      <li>Missing</li>
+      <li>Matched again</li>
+    </ol>
+  </div>
+) : (
+  <div class="fragment-image fragment-trace" role="img" aria-label="Illustrative workspace crop showing one source line, a graph with Input and MultiheadAttention nodes, and the tensor shape 2 by 128 by 512.">
+    <code aria-hidden="true">attn_out, _ = <span>self.attention</span>(x, x, x)</code>
+    <span class="trace-source-line" aria-hidden="true"></span>
+    <div class="trace-shape" aria-hidden="true">
+      <span class="trace-kind evidence-note">Input tensor</span>
+      <span>[2, 128, 512]</span>
+    </div>
+    <span class="trace-node trace-input" aria-hidden="true">Input</span>
+    <span class="trace-edge" aria-hidden="true"></span>
+    <span class="trace-node trace-attention" aria-hidden="true">MultiheadAttention</span>
+  </div>
+)}

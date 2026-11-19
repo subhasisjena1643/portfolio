@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  evidence: string;
+}
+
+const { title, evidence } = Astro.props;
+---
+<details class="evidence-disclosure" name="opening-evidence">
+  <summary>
+    <span class="evidence-show">Show evidence</span>
+    <span class="evidence-hide">Hide evidence</span>
+    <span class="evidence-context"> for {title}</span>
+  </summary>
+  <p class="evidence-transcript">{evidence}</p>
+</details>

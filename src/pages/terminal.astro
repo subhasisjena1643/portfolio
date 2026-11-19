@@ -1,0 +1,51 @@
+---
+import PageMeta from "../components/PageMeta.astro";
+export const prerender = false;
+import { publicFiles } from '../server/files';
+import BrandMark from '../components/BrandMark.astro';
+import Receiver from '../components/Receiver.astro';
+import EditionSlide from '../components/EditionSlide.astro';
+import '../styles/terminal.css';
+
+const files = await publicFiles();
+const params = Astro.url.searchParams;
+const source = params.get('from');
+const sourcePath = source?.split('#')[0];
+const entry = files.find(f => f.file === params.get('file') || f.href === source) ??
+  files.find(f => f.href === sourcePath);
+const directories = { work: '/work/', research: '/#research', journal: '/journal/', about: '/about/' };
+const requested = params.get('dir') || Object.entries(directories).find(([, path]) => path === params.get('from'))?.[0];
+const directory = entry?.file.split('/')[0] || (requested && Object.hasOwn(directories, requested) ? requested : '');
+const entryAnchor = entry && sourcePath === entry.href && source?.slice(sourcePath.length).match(/^#[a-z0-9-]+$/) ? source : undefined;
+const localAnchor = source?.match(/^\/(?:work\/)?#[a-z0-9-]+$/)?.[0];
+const destination = entryAnchor || entry?.href || directories[directory as keyof typeof directories] || localAnchor || '/';
+const snapshot = entry?.file.startsWith('journal/') && entry.href + 'snapshot.png';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <PageMeta title="Terminal · Atlas of Invisible Things" description="Browse Subhasis Jena’s work, research, and journal in the terminal edition of the Atlas." />
+    <link rel="alternate" type="text/plain" href="/atlas.txt" />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body class="term">
+    <main aria-label="Portfolio terminal" data-directory={directory}>
+      <section id="shell-log" aria-label="Terminal scrollback">
+        <div class="login" data-device><BrandMark /><div><h1>Subhasis Jena</h1><p>Software engineer · AI systems &amp; ML tools<br />Bengaluru, India</p></div></div>
+        <p class="motd">Type <b>ls</b> to list files, <b>help</b> for commands, or <b>exit</b> to return.</p>
+        {entry && <div><p>visitor@atlas:~$ cat {entry.file}</p><pre>{entry.title+'\n\n'+entry.text}</pre>{snapshot && <a href={snapshot} download>snapshot.png</a>}</div>}
+        {!entry && directory && <div><p>visitor@atlas:~$ ls {directory}</p><pre>{files.filter(f=>f.file.startsWith(directory+'/')).map(f=>f.file.split('/').pop()).join('  ')}</pre></div>}
+      </section>
+      <form id="prompt">
+        <label for="cmd"><span id="shell-prefix">visitor@atlas:<span id="cwd">~{directory && '/'+directory}</span>$</span><span id="chat-prefix" hidden>You ›</span></label>
+        <input id="cmd" aria-label="Shell command" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" />
+      </form>
+      <div hidden><EditionSlide destination={destination} terminal /></div>
+      <Receiver />
+    </main>
+    <script id="public-files" type="application/json" set:html={JSON.stringify(files).replace(/</g,'\\u003c')} />
+    <script src="../scripts/portfolio-shell.ts"></script>
+  </body>
+</html>

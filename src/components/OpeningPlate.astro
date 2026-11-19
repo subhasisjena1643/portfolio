@@ -1,0 +1,59 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { magneticAssembly } from '../data/research';
+import EditorialArt from './EditorialArt.astro';
+import EvidenceDisclosure from './EvidenceDisclosure.astro';
+import FragmentArtwork from './FragmentArtwork.astro';
+
+type Project = CollectionEntry<'work'>['data'];
+
+interface Props {
+  classroom?: Project;
+  studio?: Project;
+  research: typeof magneticAssembly;
+}
+
+const { classroom, studio, research } = Astro.props;
+---
+<ul class="opening-plate" role="list" aria-label="Selected work and research">
+  {studio && (
+    <li class="opening-fragment fragment-studio">
+      <figure>
+        <FragmentArtwork kind="studio" />
+        <EvidenceDisclosure title={studio.title} evidence="In the bundled transformer, the call self.attention(x, x, x) maps to the MultiheadAttention node. The edge from Input carries a tensor of shape [2, 128, 512]." />
+        <figcaption>
+          <h2><a href={`/work/${studio.slug}/`}>{studio.title}</a></h2>
+          <p>Illustrative example · Verified attention trace from the bundled demo.</p>
+        </figcaption>
+      </figure>
+    </li>
+  )}
+  {classroom && (
+    <li class="opening-fragment fragment-classroom">
+      <figure>
+        <FragmentArtwork kind="classroom" />
+        <EvidenceDisclosure title={classroom.title} evidence="In this synthetic timeline, Track 01 is still unmatched four seconds into the 30-second alert. The countdown reads 26 seconds." />
+        <figcaption>
+          <h2><a href={`/work/${classroom.slug}/`}>{classroom.title}</a></h2>
+          <p>Synthetic timeline · A tracking ID drops out and returns.</p>
+        </figcaption>
+      </figure>
+    </li>
+  )}
+  <li class="opening-fragment fragment-research">
+    <figure>
+      <div class="fragment-image fragment-field">
+        <EditorialArt motif={research.figure.motif} alt={research.figure.alt} />
+        <div class="field-note evidence-note" aria-hidden="true">
+          <strong>Proposed rule</strong>
+          <span>Switch in stages.</span>
+        </div>
+      </div>
+      <EvidenceDisclosure title={research.title} evidence="The proposal switches magnetic interfaces on in stages. The dashed connection marks a candidate join for the loose fourth unit. The proposed simulation would compare staged switching with fixed interfaces." />
+      <figcaption>
+        <h2><a href={`/research/${research.slug}/`}>{research.title}</a></h2>
+        <p>Research note · Proposed assembly schematic.</p>
+      </figcaption>
+    </figure>
+  </li>
+</ul>

@@ -1,0 +1,53 @@
+---
+interface Props {items:{title:string;href:string;label:string}[]}
+const {items}=Astro.props;
+---
+<section class="instrument" aria-label="Interactive project viewfinder"><div class="instrument-glass"><canvas aria-hidden="true"></canvas><div class="register" aria-hidden="true">SJ / FIELD OBSERVATIONS</div><div class="crosshairs" aria-hidden="true">+</div></div><div class="instrument-rail"><div aria-live="polite">{items.map((p,i)=><div data-reading hidden={i!==0}><small>{p.label}</small><a href={p.href}>{p.title} ↗</a></div>)}</div><div class="shuttle"><button type="button" data-turn="-1" aria-label="Previous observation">‹</button><button type="button" data-turn="1" aria-label="Next observation">›</button></div></div></section>
+<script>
+const instrument=document.querySelector<HTMLElement>('.instrument')!;
+const canvas=instrument.querySelector('canvas')!;
+const ctx=canvas.getContext('2d');
+const readings=Array.from(instrument.querySelectorAll<HTMLElement>('[data-reading]'));
+let index=0,angle=-.25,target=-.25,frame=0,drag:number|null=null,start=0;
+const reduced=matchMedia('(prefers-reduced-motion:reduce)');
+function draw(){
+ if(!ctx)return;
+ const rect=canvas.getBoundingClientRect(),w=rect.width,h=rect.height;if(!w||!h)return;
+ const dpr=Math.min(devicePixelRatio,2);
+ if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr)}
+ ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+ const r=Math.min(w*.29,h*.36),cx=w*.52,cy=h*.5;
+ function project(x:number,y:number,z:number){
+  const rx=x*Math.cos(angle)+z*Math.sin(angle),rz=z*Math.cos(angle)-x*Math.sin(angle);
+  return [cx+rx*r,cy+(y*.84+rz*.54)*r];
+ }
+ // Contours of a measured field, a folded model surface, and a magnetic torus.
+ for(let row=0;row<62;row++){
+  const v=row/61*Math.PI*2;ctx.beginPath();
+  for(let j=0;j<=150;j++){const u=j/150*Math.PI*2;
+   const ripple=Math.sin(3*u+2*v)*.09;
+   const radius=index%3===0?.68+Math.cos(v)*.33+ripple:index%3===1?.76+.31*Math.cos(3*u+v):.73+.29*Math.cos(v);
+   const y=index%3===1?.37*Math.sin(2*u+v)+.15*Math.cos(v):.38*Math.sin(v)+.16*Math.sin(2*u);
+   const [px,py]=project(radius*Math.cos(u)*1.4,y,radius*Math.sin(u));
+   if(j===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);
+  }
+  ctx.lineWidth=.9;ctx.strokeStyle=row%9===0?'#d85e37':row%3===0?'#1f4644':'#416a625e';ctx.stroke();
+ }
+}
+function animate(){angle+=(target-angle)*.15;draw();frame=Math.abs(target-angle)>.002?requestAnimationFrame(animate):0}
+function tilt(value:number){target=value;if(reduced.matches){angle=value;draw()}else if(!frame)frame=requestAnimationFrame(animate)}
+function select(delta:number){index=(index+delta+readings.length)%readings.length;readings.forEach((p,i)=>p.hidden=i!==index);tilt(target+Math.PI*.55)}
+instrument.querySelectorAll<HTMLButtonElement>('[data-turn]').forEach(b=>b.onclick=()=>select(Number(b.dataset.turn)));
+canvas.onpointerdown=e=>{drag=e.clientX;start=target;canvas.setPointerCapture(e.pointerId)};
+canvas.onpointermove=e=>{if(drag!==null)tilt(start+(e.clientX-drag)/85)};
+canvas.onpointerup=canvas.onpointercancel=()=>{drag=null};
+new ResizeObserver(draw).observe(canvas);tilt(.54);
+</script>
+<style>
+.instrument{position:relative;min-width:0;border:1px solid #9ca69a;background:#e8e9dd;color:#233d37;box-shadow:5px 5px 0 #1e342b15;grid-column:6/-1}
+.instrument-glass{position:relative;isolation:isolate;background-image:radial-gradient(#a9b4a6 1px,transparent 1px);background-size:16px 16px}
+canvas{display:block;width:100%;height:clamp(17rem,31vw,32rem);touch-action:pan-y;cursor:grab}canvas:active{cursor:grabbing}
+.register,.crosshairs,.instrument small{font:600 .76rem/1.4 monospace;letter-spacing:.09em}.register,.crosshairs{position:absolute;pointer-events:none;top:1rem;left:1rem}.crosshairs{left:auto;right:1rem;font-size:1.4rem}
+.instrument-rail{border-top:1px solid #a2ab9d;background:#f0efe4;display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;gap:1rem}.instrument small{display:block;text-transform:uppercase}.instrument a{color:#203a34;font:1.8rem/1.1 var(--font-display)}.shuttle{display:flex;gap:4px}.shuttle button{width:44px;height:44px;background:none;border:1px solid #8f9b90;color:#203a34;cursor:pointer;font:1.6rem/1 monospace}.shuttle button:hover{background:#d4dfcf}
+@media(max-width:63.99rem){.instrument{grid-column:1/-1}}
+</style>

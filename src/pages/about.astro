@@ -1,16 +1,46 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { education, experience, identity } from '../data/profile';
+import { contacts } from '../data/contacts';
 ---
-<BaseLayout title="About · Subhasis Jena" description="About Subhasis Jena, a designer and creative technologist based in Bengaluru.">
-  <article class="text-page">
-    <header>
-      <h1>About</h1>
-      <p class="lead">I’m Subhasis Jena, a designer and creative technologist based in Bengaluru.</p>
-    </header>
-    <section class="section-rule" aria-labelledby="practice-title">
-      <h2 id="practice-title">How I work</h2>
-      <p>My background is in electronics and communication. It shapes the questions I ask when I build an interface. What signal can someone see? What might they miss? What detail would help them decide what to do next?</p>
-      <p>I bring those questions to interface engineering and systems diagnostics. In a PyTorch workspace, that can mean putting a shape warning beside the connection that produced it. In a research simulation, it can mean making the local rules visible next to the structure they are meant to form.</p>
+<BaseLayout title="About & résumé · Subhasis Jena" description="About Subhasis Jena, his electronics background, diagnostics work, HackerRank challenge design, and public résumé.">
+  <article class="cv">
+    <header class="cv-intro" id="resume"><div><p class="imprint">About &amp; résumé</p><h1>Subhasis Jena</h1></div>
+      <div><p>{identity}</p><button type="button" id="print-resume" hidden>Print / save PDF</button></div></header>
+    <section aria-labelledby="practice-title">
+      <h2 id="practice-title">Practice</h2>
+      <div>
+        <p>I’m based in Bengaluru and trained in electronics and communication engineering at REVA University. I design interfaces that help people inspect what a system did and where to look next.</p>
+        <p>In communications diagnostics, I worked on evidence views and redaction. In MuLM Studio, I worked on placing an explanation beside the model connection and the shape values that prompted it.</p>
+        <p>For HackerRank Orchestrate, I worked on challenge design for a task with structured inputs, a defined output format, and explicit evaluation rules.</p>
+        <a href="/work/mulm-studio/">Read the MuLM Studio case study</a>
+      </div>
     </section>
+    <section aria-labelledby="experience-title"><h2 id="experience-title">Experience</h2><ol>{experience.map(e => <li><p class="eyebrow">{e.dates}</p><h3>{e.employer}</h3><strong>{e.role}</strong><p>{e.detail}</p></li>)}</ol></section>
+    <section><h2>Education</h2><p>{education}</p></section>
+    <section><h2>Contact</h2><ul class="inline-links">{contacts.map(c => <li><a href={c.href}>{c.label}</a></li>)}</ul></section>
   </article>
 </BaseLayout>
+<script>
+const print = document.querySelector<HTMLButtonElement>('#print-resume')!;
+print.hidden = false;
+print.addEventListener('click', () => window.print());
+</script>
+<style>
+.cv{padding-block:clamp(2rem,6vw,6rem);max-width:72rem}.cv-intro{display:flex;align-items:end;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:3.5rem}.cv-intro>div:last-child{max-width:30ch}.cv-intro p{margin:0 0 .65rem}.cv button{font:inherit;border:0;padding:.3rem 0;border-bottom:1px solid;background:transparent;color:inherit;cursor:pointer}.cv section{padding-block:1.75rem;border-top:1px solid var(--rule);display:grid;grid-template-columns:minmax(12rem,1fr) 2fr;gap:2rem}.cv section h2{font-size:clamp(2.2rem,4vw,3.6rem)}.cv ol{list-style:none;margin:0;padding:0}.cv li+li{border-top:1px solid var(--rule);padding-top:1.4rem;margin-top:1.4rem}.cv section p{max-width:63ch;margin:0 0 .65rem}.cv section h3{font-size:2.2rem;margin-bottom:.42rem}.cv strong{display:block;margin-bottom:.6rem}.cv .inline-links li{margin:0;padding:0;border:0}
+@media(max-width:42rem){.cv section{grid-template-columns:1fr;gap:1rem}.cv-intro{gap:1rem}}
+@media print{@page{margin:15mm}.cv{padding:0;font-size:10pt;color:#111}.cv h1{font-size:38pt}.cv header{margin-bottom:1rem}.cv section{display:block;padding:.5rem 0}.cv section h2{font-size:20pt;margin-bottom:.4rem}.cv section h3{font-size:14pt}.cv li{break-inside:avoid}.cv li+li{padding-top:.5rem;margin-top:.5rem}.cv button,:global(.site-header),:global(.site-footer),:global(.skip-link),:global(astro-dev-toolbar){display:none!important}.cv .inline-links a:after{content:' (' attr(href) ')';font-size:9pt}:global(body){background:white}.cv section p{max-width:none}}
+@media print{
+  .cv{line-height:1.3}
+  .cv-intro{display:block;margin:0 0 .6rem}
+  .cv-intro>div:last-child{max-width:none}
+
+  .cv-intro p,.cv section p{margin:0 0 .3rem}
+  .cv section{padding:.4rem 0;gap:0}
+  .cv .eyebrow{font-size:8.5pt}
+  .cv strong{margin-bottom:.2rem}
+  .cv .inline-links{margin:0}
+  .cv .inline-links a{min-height:0}
+  :global(main.shell){width:100%;max-width:none}
+}
+</style>

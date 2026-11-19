@@ -17,5 +17,12 @@ const projects = await getVisibleWork();
       </ul>
     </nav>
   </header>
-  <WorkListing projects={projects} />
+  <div class="work-index"><WorkListing projects={projects} /></div>
 </BaseLayout>
+
+<style>
+  @media (max-width: 51.99rem) {
+    .work-index :global(.chapter .specimen) { display: block; }
+    .work-index :global(.specimen .aperture) { height: 7rem; }
+  }
+</style>

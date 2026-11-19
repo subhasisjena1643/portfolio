@@ -1,0 +1,34 @@
+---
+import TensorField from './TensorField.astro';
+interface Props { detail?: boolean }
+const { detail = false } = Astro.props;
+const Frame = detail ? 'div' : 'a';
+---
+<Frame class:list={['studio-plate', {'studio-detail': detail}]} href={detail ? undefined : '/work/mulm-studio/'} aria-label={detail ? undefined : 'Read the MuLM Studio case study'}>
+  <div class="studio-art" aria-hidden="true"><TensorField /></div>
+  <div class="studio-inscription">
+    <p class="plate-kicker"><i aria-hidden="true"></i>{detail ? 'Inside the workspace' : 'Featured work'}</p>
+    <div class="plate-type"><span>MuLM</span> <em>Studio</em></div>
+    <p class="plate-summary">A PyTorch model,<br />drawn from its code.</p>
+    {detail ? <a href="#detail-title" class="plate-link">Try the shape check <span aria-hidden="true">↓</span></a> : <span class="plate-link">Read case study <span aria-hidden="true">↗</span></span>}
+  </div>
+  <div class="plate-strip"><span>Founder &amp; engineering lead</span><span>Local-first MVP</span></div>
+</Frame>
+<style>
+.studio-plate{isolation:isolate;overflow:clip;display:block;position:relative;color:#f6f1e7;background:#141426;text-decoration:none;view-transition-name:studio-plate}
+.studio-art{position:absolute;inset:0 0 0 27%;z-index:-2;overflow:hidden}
+.studio-art:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#141426,transparent 21%)}
+.studio-inscription{padding:clamp(1.4rem,3.5vw,3.8rem);padding-bottom:clamp(1.35rem,3vw,3rem);width:45%}
+.plate-kicker,.plate-strip{font:500 .78rem/1.4 ui-monospace,Consolas,monospace}
+.plate-kicker{display:flex;align-items:center;gap:.65rem;margin:0 0 clamp(1.1rem,2.3vw,2.2rem);color:#ebe5da}
+.plate-kicker i{width:1.8rem;border-top:2px solid #fbab83}
+.plate-type{font:400 clamp(4.5rem,6.8vw,8.4rem)/.79 var(--font-display);letter-spacing:-.043em}
+.plate-type span,.plate-type em{display:block}.plate-type em{font-style:italic;color:#ffc0a1;margin-left:.19em}
+.plate-summary{font-size:clamp(1rem,1.3vw,1.35rem);line-height:1.4;margin:1.45rem 0;color:#f6f1e7}
+.plate-link{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:.8rem;border-bottom:1px solid #a9a5ad;padding:.25rem 0 .35rem;font-weight:650;font-size:.93rem}
+.plate-link span{transition:transform .25s}.studio-plate:hover .plate-link span{transform:translate(2px,-2px)}
+.plate-strip{position:relative;display:flex;gap:1rem;align-items:center;justify-content:space-between;padding:.8rem clamp(1.3rem,3.5vw,3.8rem);border-top:1px solid #ffffff38;color:#e0dce2;background:#131323df}
+.studio-detail{margin:0 0 2rem}.studio-detail .studio-inscription{padding-block:2.25rem}
+@media(max-width:40rem){.studio-inscription{width:100%;padding:1.25rem}.plate-type{font-size:clamp(3.8rem,13vw,5rem)}.studio-art{inset:23% -4% 8% 40%;mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 83%,transparent)}.studio-art:after{background:linear-gradient(90deg,#141426,transparent 30%)}.plate-summary{font-size:.94rem;max-width:42%;margin:1.3rem 0 .65rem}.plate-strip{padding:.65rem 1rem;font-size:.72rem}.plate-link{font-size:.86rem}.plate-kicker{margin-bottom:1.55rem}}
+@media(prefers-reduced-motion:reduce){.plate-link span{transition:none}}
+</style>

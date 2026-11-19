@@ -1,0 +1,20 @@
+@view-transition { navigation: auto }
+* { box-sizing: border-box }
+html:has(.term) { background: #101111; color-scheme: dark }
+.term { margin: 0; color: #dadcd6; background: #101111; font: 1rem/1.45 Consolas, 'Liberation Mono', monospace }
+.term main { min-height: 100svh; padding: clamp(.65rem, 1.5vw, 1.4rem); cursor: text }
+.term h1, .term p, .term pre { margin: 0; font: inherit }
+.term .login { display: flex; align-items: center; gap: 2ch; margin-bottom: 1em }
+.term .login svg { width: 5ch; height: 4.25em; color: #dadcd6 }
+.term .login h1 { font-weight: bold; color: #f1f2ed }
+.term .login p, .term .motd { color: #acaea9 }
+.term .motd { margin-bottom: 1em }
+.term pre { white-space: pre-wrap; overflow-wrap: anywhere }
+.term #shell-log p { overflow-wrap: anywhere }
+.term .echo, .term #prompt label { color: #a8c99f }
+.term #prompt { display: flex; align-items: baseline; gap: 1ch }
+.term #prompt label { flex: none }
+.term #cmd { flex: 1; min-width: 1ch; margin: 0; padding: 0; border: 0; border-radius: 0; outline: 0; background: transparent; color: inherit; caret-color: #eee; font: inherit }
+.term a { color: inherit; text-underline-offset: .18em }
+.term ::selection { color: #101111; background: #c3d5b6 }
+@media(max-width: 32rem) { .term { font-size: .94rem } .term #cmd { font-size: 1rem } }

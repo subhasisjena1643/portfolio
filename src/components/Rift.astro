@@ -1,0 +1,22 @@
+---
+import BrandMark from './BrandMark.astro';
+---
+<a href="/arcade/" class="city-signal" ><span aria-hidden="true"></span><BrandMark /><strong>Explore Bengaluru After Hours</strong></a>
+<script>
+const signal = document.querySelector<HTMLAnchorElement>('.city-signal');
+signal?.addEventListener('click', e => {
+  if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button !== 0 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  e.preventDefault();
+  if(document.documentElement.classList.contains('crossing')) return;
+  document.documentElement.classList.add('crossing');
+  setTimeout(() => location.assign(signal.href), 360);
+});
+window.addEventListener('pageshow', () => document.documentElement.classList.remove('crossing'));
+</script>
+<style>
+.city-signal{width:clamp(8rem,23vw,20rem);height:6rem;position:relative;display:grid;place-items:center;isolation:isolate}.city-signal span{inset:0;position:absolute;background:#212338 url('/art/atlas-arcade.webp') center 43%/cover;clip-path:polygon(0 64%,98% 22%,76% 47%,100% 37%,12% 79%,36% 58%);z-index:-1}.city-signal :global(svg){height:4rem;color:#fff2ce;filter:drop-shadow(2px 1px #ab442f)}
+@media(prefers-reduced-motion:no-preference){.city-signal span{transition:clip-path .4s cubic-bezier(.2,.8,.2,1)}.city-signal:is(:hover,:focus-visible) span{clip-path:polygon(0 20%,98% 0,99% 45%,100% 80%,0 100%,1% 55%)}}
+.city-signal { height: clamp(6rem, 13vw, 11rem); width: clamp(13rem, 28vw, 26rem); padding-bottom: 2rem; }
+.city-signal span { bottom: 2rem; clip-path: polygon(0 23%, 100% 0, 100% 78%, 0 100%); }
+.city-signal strong { position: absolute; bottom: .25rem; font: 600 .875rem/1.5 var(--font-body); text-decoration: underline; text-underline-offset: .2em; }
+</style>

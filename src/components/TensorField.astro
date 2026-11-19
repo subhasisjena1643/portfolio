@@ -1,0 +1,89 @@
+---
+// A bundle of longitudinal contours through oblique, rotating cross-sections.
+// Each tuple holds the horizontal centre, vertical centre and section radius.
+const sections = [
+  [84, 244, 36], [140, 221, 92], [224, 212, 124], [303, 221, 102],
+  [377, 249, 49], [430, 261, 15], [479, 247, 12], [525, 214, 44],
+  [576, 185, 96], [630, 177, 125], [686, 182, 103], [714, 197, 83],
+];
+const tau = Math.PI * 2;
+const fibres = 76;
+const palette = [
+  ['#655392', '#9274a9', '#b28682', '#92698f', '#796490'],
+  ['#9e91d0', '#b5a3df', '#e5b29d', '#dba59f', '#a88db4'],
+  ['#e0cee8', '#d5c6f4', '#f7dbc3', '#f3c5ad', '#e8ae92'],
+  ['#b0addf', '#c4baef', '#d6afd3', '#c695a5', '#eab69c'],
+  ['#63577e', '#9887b5', '#a787ae', '#917795', '#ab7e77'],
+];
+type Point = [number, number];
+
+function sectionPoint(index: number, angle: number): Point {
+  const [x, y, radius] = sections[index];
+  const t = index / (sections.length - 1);
+  const a = angle - .42 + 4.9 * t - .48 * Math.cos(t * tau);
+  const r = radius * (1 + .16 * Math.sin(2 * a + 2.3 * t));
+  return [
+    x + r * (.56 * Math.cos(a) - .2 * Math.sin(a)),
+    y + r * (Math.sin(a) - .13 * Math.cos(a)),
+  ];
+}
+
+const coordinate = (point: Point) => point.map(n => Math.round(n * 10) / 10).join(' ');
+function spline(points: Point[]) {
+  let path = 'M' + coordinate(points[0]);
+  for (let i = 0; i < points.length - 1; i++) {
+    const prev = points[Math.max(0, i - 1)], start = points[i];
+    const end = points[i + 1], next = points[Math.min(i + 2, points.length - 1)];
+    const a: Point = [start[0] + (end[0] - prev[0]) / 6, start[1] + (end[1] - prev[1]) / 6];
+    const b: Point = [end[0] - (next[0] - start[0]) / 6, end[1] - (next[1] - start[1]) / 6];
+    path += 'C' + coordinate(a) + ' ' + coordinate(b) + ' ' + coordinate(end);
+  }
+  return path;
+}
+
+const paths = Array.from({ length: fibres }, (_, i) => {
+  const angle = i / fibres * tau;
+  const tone = Math.min(4, Math.floor((.5 + .499 * Math.sin(angle + .58)) * 5));
+  return { d: spline(sections.map((_, index) => sectionPoint(index, angle))), tone };
+});
+const rims = [0, 2, 5, 9, 11].map(index => spline(Array.from({ length: 33 }, (_, step) => sectionPoint(index, step / 32 * tau))));
+const plateId = 'tf-' + Math.random().toString(36).slice(2, 10);
+---
+<tensor-field aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg" width="800" height="430" viewBox="0 0 800 430" fill="none">
+    <defs>
+      {palette.map((stops, i) => <linearGradient id={plateId + i} x1="70" x2="750" y1="280" y2="170" gradientUnits="userSpaceOnUse">
+        {stops.map((color, j) => <stop offset={j / (stops.length - 1)} stop-color={color} />)}
+      </linearGradient>)}
+    </defs>
+    <g stroke-linecap="round">
+      {paths.map(({ d, tone }) => <path d={d} stroke={`url(#${plateId}${tone})`} stroke-width={tone === 2 ? 1.3 : .92} />)}
+      {rims.map((d, i) => <path d={d} stroke={i < 2 ? '#c0b8ee' : '#efc3ac'} opacity={i === 4 ? '.85' : '.22'} stroke-width=".9" />)}
+    </g>
+  </svg>
+  <canvas></canvas>
+</tensor-field>
+<script>
+  import '../scripts/tensor-field';
+</script>
+<style>
+  tensor-field {
+    position:absolute; inset:0; overflow:hidden; pointer-events:none;
+    display:block; background:radial-gradient(ellipse at 76% 36%, #302037 0, transparent 52%),
+      radial-gradient(ellipse at 29% 63%, #262743 0, transparent 58%), #11101d;
+  }
+  tensor-field::after {
+    content:""; position:absolute; inset:0; pointer-events:none; opacity:.2;
+    background-image:radial-gradient(circle, #c9bdd474 .65px, transparent .8px);
+    background-position:center; background-size:18px 18px;
+    mask-image:linear-gradient(110deg, #000, transparent 48%, #000);
+  }
+  svg, canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
+  canvas { visibility:hidden; }
+  [data-renderer="webgl"] canvas { visibility:visible; }
+  [data-renderer="webgl"] svg { visibility:hidden; }
+  @media print, (prefers-reduced-motion: reduce) {
+    [data-renderer="webgl"] svg { visibility:visible; }
+    [data-renderer="webgl"] canvas { visibility:hidden; }
+  }
+</style>

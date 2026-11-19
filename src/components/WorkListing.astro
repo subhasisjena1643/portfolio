@@ -1,4 +1,6 @@
 ---
+import WorkFigure from './WorkFigure.astro';
+import {publicLink} from '../data/links';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -6,7 +8,6 @@ interface Props {
 }
 
 const { projects } = Astro.props;
-const showsMuLMStudio = projects.some(({ slug }) => slug === 'mulm-studio');
 ---
 {projects.length > 0 && (
   <section id="work" class="chapters section-rule" aria-labelledby="work-title">
@@ -17,6 +18,7 @@ const showsMuLMStudio = projects.some(({ slug }) => slug === 'mulm-studio');
     <ol class="chapter-list">
       {projects.map((project) => (
         <li class="chapter">
+          <a class="specimen" href={`/work/${project.slug}/`} aria-label={`Open ${project.title}`}><WorkFigure figure={project.figure} /></a>
           <div class="chapter-heading">
             <p class="eyebrow">{project.category}{project.draft && ' · Draft'}</p>
             <h3>{project.title}</h3>
@@ -45,10 +47,11 @@ const showsMuLMStudio = projects.some(({ slug }) => slug === 'mulm-studio');
       <div><dt>My role</dt><dd>Machine learning experiments and evaluation</dd></div>
       <div><dt>My teammates’ role</dt><dd>Frontend and backend development</dd></div>
     </dl>
-    <p>The team used my evaluation scores. Time constraints kept my ML pipeline out of the final application.</p>
+    <p>The team used my evaluation scores. Due to time constraints, my experimental pipeline stayed separate from the final application. The experiment report records a mean absolute error of 73.92 for AdaptiveCSRNet on ShanghaiTech Part A.</p>
     <ul class="inline-links">
-      <li><a href="https://github.com/subhasisjena1643/crowdvision">My ML experiments <span aria-hidden="true">↗</span></a></li>
-      <li><a href="https://github.com/Zoroh26/Major-Project">Team application source <span aria-hidden="true">↗</span></a></li>
+      <li><a href={publicLink('ATLAS_CROWDVISION_ML_URL')}>My ML experiments <span aria-hidden="true">↗</span></a></li>
+      <li><a href={publicLink('ATLAS_CROWDVISION_TEAM_URL')}>Team application source <span aria-hidden="true">↗</span></a></li>
+      <li><a href="https://github.com/subhasisjena1643/crowdvision/blob/932b354b7bff4b9f59bc32d155da96aae2b570f3/ML_DECISIONS_REPORT.md">Evaluation report</a></li>
     </ul>
   </div>
 </section>
@@ -59,6 +62,6 @@ const showsMuLMStudio = projects.some(({ slug }) => slug === 'mulm-studio');
   </div>
   <div>
     <p class="compact-lead">Evidence from a program run for coding assistants.</p>
-    <p>Planning and documentation are complete. MuScope is designed to show an assistant which step failed and what the program reported.{showsMuLMStudio && ' MuLM Studio gives people a graph they can inspect while working with PyTorch code.'}</p>
+    <p>I’m building MuScope to give coding assistants evidence about what happened at runtime, including the step that failed and what the program reported.</p>
   </div>
 </section>

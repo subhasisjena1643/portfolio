@@ -1,0 +1,386 @@
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - list [ref=e7]
+  - main:
+    - generic:
+      - generic:
+        - generic:
+          - heading "Discover the A24 library of Films" [level=1]
+      - generic:
+        - list:
+          - listitem:
+            - paragraph: Backrooms
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Kane Parsons
+            - paragraph: "2026"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Chiwetel Ejiofor
+                - listitem:
+                  - paragraph: Renate Reinsve
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/backrooms/disc.webp?v=7
+            - paragraph: Backrooms disc artwork
+            - link:
+              - /url: /production/backrooms
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: The Playlist
+                  - paragraph: Something Far More Haunting
+                  - paragraph: "5"
+                - listitem:
+                  - paragraph: The Daily Beast
+                  - paragraph: Casts A Surrealistic Spell
+                  - paragraph: "4.5"
+          - listitem:
+            - paragraph: The Invite
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Olivia Wilde
+            - paragraph: "2026"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Seth Rogen
+                - listitem:
+                  - paragraph: Olivia Wilde
+                - listitem:
+                  - paragraph: Penélope Cruz
+                - listitem:
+                  - paragraph: Edward Norton
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/the-invite/disc.webp?v=7
+            - paragraph: The Invite disc artwork
+            - link:
+              - /url: /production/the-invite
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: The Times
+                  - paragraph: Award-Worthy, Dazzling Sex Comedy
+                  - paragraph: "5"
+                - listitem:
+                  - paragraph: Los Angeles Times
+                  - paragraph: Wincing Laughs Of Recognition
+                  - paragraph: "4.5"
+          - listitem:
+            - paragraph: Tony
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Matt Johnson
+            - paragraph: "2026"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Dominic Sessa
+                - listitem:
+                  - paragraph: Emilia Jones
+                - listitem:
+                  - paragraph: Leo Woodall
+                - listitem:
+                  - paragraph: Antonio Banderas
+                - listitem:
+                  - paragraph: Stavros Halkias
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/tony/disc.webp?v=7
+            - paragraph: Tony disc artwork
+            - link:
+              - /url: /production/tony
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Consequence
+                  - paragraph: Power Of The Unexpected
+                  - paragraph: "4.5"
+                - listitem:
+                  - paragraph: The Globe and Mail
+                  - paragraph: Rich One-Perfect-Summer Cinema
+                  - paragraph: "4.5"
+          - listitem:
+            - paragraph: Marty Supreme
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Josh Safdie
+            - paragraph: "2025"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Timothée Chalamet
+                - listitem:
+                  - paragraph: Gwyneth Paltrow
+                - listitem:
+                  - paragraph: Kevin O'Leary
+                - listitem:
+                  - paragraph: Odessa A’zion
+                - listitem:
+                  - paragraph: Abel Ferrara
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/marty-supreme/disc.webp?v=7
+            - paragraph: Marty Supreme disc artwork
+            - link:
+              - /url: /production/marty-supreme
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Variety
+                  - paragraph: One Of Year’s Masterpieces
+                  - paragraph: "5"
+                - listitem:
+                  - paragraph: Slashfilm
+                  - paragraph: Chalamet’s Best Career Performance
+                  - paragraph: "5"
+          - listitem:
+            - paragraph: The Smashing Machine
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Benny Safdie
+            - paragraph: "2025"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Dwayne Johnson
+                - listitem:
+                  - paragraph: Emily Blunt
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/the-smashing-machine/disc.webp?v=7
+            - paragraph: The Smashing Machine disc artwork
+            - link:
+              - /url: /production/the-smashing-machine
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Variety
+                  - paragraph: Subtler And More Moving
+                  - paragraph: "4.5"
+                - listitem:
+                  - paragraph: Austin Chronicle
+                  - paragraph: A Surprisingly Gentle Giant
+                  - paragraph: "4.5"
+          - listitem:
+            - paragraph: The Brutalist
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Brady Corbet
+            - paragraph: "2024"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Adrien Brody
+                - listitem:
+                  - paragraph: Felicity Jones
+                - listitem:
+                  - paragraph: Guy Pearce
+                - listitem:
+                  - paragraph: Joe Alwyn
+                - listitem:
+                  - paragraph: Raffey Cassidy
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/the-brutalist/disc.webp?v=7
+            - paragraph: The Brutalist disc artwork
+            - link:
+              - /url: /production/the-brutalist
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: The Guardian
+                  - paragraph: Thrilling Directness And Storytelling Force
+                  - paragraph: "5"
+                - listitem:
+                  - paragraph: Rolling Stone
+                  - paragraph: Storytelling Chops, Nerve And Verve
+                  - paragraph: "5"
+          - listitem:
+            - paragraph: The Zone of Interest
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Jonathan Glazer
+            - paragraph: "2023"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Sandra Hüller
+                - listitem:
+                  - paragraph: Christian Friedel
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/the-zone-of-interest/disc.webp?v=7
+            - paragraph: The Zone of Interest disc artwork
+            - link:
+              - /url: /production/the-zone-of-interest
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Variety
+                  - paragraph: Chilling And Profound
+                  - paragraph: "5"
+                - listitem:
+                  - paragraph: Time
+                  - paragraph: Devastating In The Quietest Way
+                  - paragraph: "5"
+          - listitem:
+            - paragraph: Everything Everywhere All at Once
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Daniel Kwan
+                - listitem:
+                  - paragraph: Daniel Scheinert
+            - paragraph: "2022"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Michelle Yeoh
+                - listitem:
+                  - paragraph: Stephanie Hsu
+                - listitem:
+                  - paragraph: Ke Huy Quan
+                - listitem:
+                  - paragraph: Jenny Slate
+                - listitem:
+                  - paragraph: Harry Shum Jr.
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/everything-everywhere-all-at-once/disc.webp?v=7
+            - paragraph: Everything Everywhere All at Once disc artwork
+            - link:
+              - /url: /production/everything-everywhere-all-at-once
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: The New York Times
+                  - paragraph: Galaxy-Brain Head Trip
+                  - paragraph: "5"
+                - listitem:
+                  - paragraph: IndieWire
+                  - paragraph: An Orgiastic Work Of Slaphappy Genius
+                  - paragraph: "5"
+          - listitem:
+            - paragraph: Uncut Gems
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Josh Safdie
+                - listitem:
+                  - paragraph: Benny Safdie
+            - paragraph: "2019"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Adam Sandler
+                - listitem:
+                  - paragraph: Lakeith Stanfield
+                - listitem:
+                  - paragraph: Julia Fox
+                - listitem:
+                  - paragraph: Kevin Garnett
+                - listitem:
+                  - paragraph: Idina Menzel
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/uncut-gems/disc.webp?v=7
+            - paragraph: Uncut Gems disc artwork
+            - link:
+              - /url: /production/uncut-gems
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Variety
+                  - paragraph: Locked Inside The Pinwheeling Brain
+                  - paragraph: "5"
+                - listitem:
+                  - paragraph: RogerEbert.com
+                  - paragraph: Delusion Feeds Addiction
+                  - paragraph: "5"
+          - listitem:
+            - paragraph: Hereditary
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Ari Aster
+            - paragraph: "2018"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Toni Collette
+                - listitem:
+                  - paragraph: Alex Wolff
+                - listitem:
+                  - paragraph: Milly Shapiro
+                - listitem:
+                  - paragraph: Ann Dowd
+                - listitem:
+                  - paragraph: Gabriel Byrne
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/hereditary/disc.webp?v=7
+            - paragraph: Hereditary disc artwork
+            - link:
+              - /url: /production/hereditary
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: The Guardian
+                  - paragraph: A Brilliant Machine For Scaring Us
+                  - paragraph: "5"
+                - listitem:
+                  - paragraph: RogerEbert.com
+                  - paragraph: Creepy Beyond Belief
+                  - paragraph: "5"
+          - listitem:
+            - paragraph: Lady Bird
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Greta Gerwig
+            - paragraph: "2017"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Saoirse Ronan
+                - listitem:
+                  - paragraph: Laurie Metcalf
+                - listitem:
+                  - paragraph: Tracy Letts
+                - listitem:
+                  - paragraph: Lucas Hedges
+                - listitem:
+                  - paragraph: Timothée Chalamet
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/lady-bird/disc.webp?v=7
+            - paragraph: Lady Bird disc artwork
+            - link:
+              - /url: /production/lady-bird
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: The New York Times
+                  - paragraph: Never Quite Like This
+                  - paragraph: "5"
+                - listitem:
+                  - paragraph: Los Angeles Times
+                  - paragraph: As Warm As It Is Smart
+                  - paragraph: "5"
+          - listitem:
+            - paragraph: Ex Machina
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Alex Garland
+            - paragraph: "2015"
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: Oscar Isaac
+                - listitem:
+                  - paragraph: Domhnall Gleeson
+                - listitem:
+                  - paragraph: Alicia Vikander
+            - paragraph: https://raviklaassens.b-cdn.net/a24/films/ex-machina/disc.webp?v=7
+            - paragraph: Ex Machina disc artwork
+            - link:
+              - /url: /production/ex-machina
+            - generic:
+              - list:
+                - listitem:
+                  - paragraph: RogerEbert.com
+                  - paragraph: A Rare And Welcome Exception
+                  - paragraph: "5"
+                - listitem:
+                  - paragraph: Los Angeles Times
+                  - paragraph: Shrewdly Imagined And Persuasively Made
+                  - paragraph: "5"

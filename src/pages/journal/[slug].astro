@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {getPost} from '../../data/journal';
+export const prerender=false;
+const post=getPost(Astro.params.slug||'');
+if(!post)return new Response('Entry not found',{status:404});
+const snapshot='/journal/'+post.slug+'/snapshot.png';
+---
+<BaseLayout title={post.title+' · Journal · Subhasis Jena'} description={post.excerpt} socialImage={snapshot}>
+<article class="desk article"><a href="/journal/">Journal</a><p class="eyebrow">{post.category} · {post.date}</p><h1 style={{viewTransitionName:'entry-'+post.slug}}>{post.title}</h1><p class="standfirst">{post.excerpt}</p>{post.body.split(/\n\s*\n/).map(p=><p class="prose">{p}</p>)}
+<footer><button id="copy">Copy post link</button> <a download={post.slug+'.png'} href={snapshot}>Download snapshot</a> <output aria-live="polite"></output></footer></article>
+</BaseLayout>
+<script>
+document.querySelector('#copy')?.addEventListener('click',async()=>{const out=document.querySelector('.article footer output')!;try{await navigator.clipboard.writeText(location.origin+location.pathname);out.textContent='Link copied.'}catch{out.textContent=location.origin+location.pathname}});
+</script>

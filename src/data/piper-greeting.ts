@@ -1,0 +1,1 @@
+export const isPiperGreeting = (value: string) => /^(?:hi|hey|hello)[\s,]+(?:ai|piper)[.!?]*$/i.test(value.trim());

@@ -1,18 +1,18 @@
 {
   "slug": "mulm-studio",
-  "order": 2,
+  "order": 1,
   "title": "MuLM Studio",
-  "category": "PyTorch workspace · Demo",
-  "question": "What does a PyTorch model look like as a graph you can inspect?",
-  "summary": "In the demo, edit a PyTorch model in the editor. With the tracing backend running, MuLM Studio captures operations and tensor shapes and draws them on the canvas so you can inspect how the model connects.",
-  "demo": "https://demo-eta-rose-13.vercel.app/",
-  "repository": "https://github.com/MuLMStudio/demo",
+  "category": "PyTorch workspace · Public demo",
+  "question": "What shape reaches self-attention in this PyTorch transformer?",
+  "summary": "Follow one attention call from the model code to the corresponding node and inspect the tensor on its input edge.",
+  "demo": "ATLAS_MULM_STUDIO_DEMO_URL",
+  "repository": "ATLAS_MULM_STUDIO_REPO_URL",
   "repositoryLabel": "View demo source",
   "artifact": {
     "label": "Inspect the bundled example graph",
-    "href": "https://github.com/MuLMStudio/demo/blob/main/static_demo_graph.json"
+    "href": "ATLAS_MULM_STUDIO_ARTIFACT_URL"
   },
-  "role": "Repository contributor · Diagnostics UI and deployment",
+  "role": "I founded MuLM Studio and lead engineering on the local-first PyTorch workspace.",
   "collaborators": [
     "Santhosh S (diagnostic and deployment commits)"
   ],
@@ -20,15 +20,15 @@
   "version": "MuLMStudio/demo · public repository",
   "provenance": [
     {
-      "source": "https://github.com/MuLMStudio/demo/blob/main/README.md",
+      "source": "ATLAS_MULM_STUDIO_README_URL",
       "scope": "Graph tracing, shape propagation and static demo mode."
     },
     {
-      "source": "https://github.com/MuLMStudio/demo/commit/e44f7fff6a1c0a1a90a9994409f71ffd810b6e37",
+      "source": "ATLAS_MULM_STUDIO_COMMIT_URL",
       "scope": "Checks tab, diagnostic presentation and canvas fixes attributed to Subhasis’s GitHub account."
     },
     {
-      "source": "https://github.com/MuLMStudio/demo/blob/main/static_demo_graph.json",
+      "source": "ATLAS_MULM_STUDIO_ARTIFACT_URL",
       "scope": "Bundled transformer graph and the Input to MultiheadAttention edge."
     }
   ],
@@ -42,9 +42,9 @@
   },
   "caseStudy": {
     "contribution": {
-      "description": "Subhasis expanded the analysis panel with a Checks tab and plain-language diagnostics, with raw trace data available on demand.",
+      "description": "I expanded the analysis panel with a Checks tab and made the raw trace available on demand.",
       "date": "2026-08-08",
-      "source": "https://github.com/MuLMStudio/demo/commit/e44f7fff6a1c0a1a90a9994409f71ffd810b6e37"
+      "source": "ATLAS_MULM_STUDIO_COMMIT_URL"
     },
     "scene": {
       "kind": "editorial",
@@ -63,10 +63,12 @@
       "permission": "Original portfolio illustration"
     },
     "decision": {
-      "title": "Keep the explanation next to the evidence",
-      "description": "In the Checks tab, I put the explanation beside the traced shape values. In this example, the projection expects an input width of 64 and receives 128. Seeing both values helps the reader decide which layer to inspect."
+      "title": "Put the explanation beside the connection",
+      "description": "In the Checks tab, I put plain-language diagnostics beside traced values and kept the raw trace available. In this example, the call site, node, and input edge give readers a precise place to begin inspecting the model."
     },
-    "limitation": "The repository also includes a static mode that loads a precomputed graph. Live updates from new code use the tracing backend. The mismatch widths above are illustrative."
+    "limitation": "The repository also includes a static mode that loads a precomputed graph. Live updates from new code use the tracing backend. The mismatch widths above are illustrative.",
+    "learning": "A trace becomes actionable when it identifies the operation and the dimensions together. This edge answers what reached attention in the bundled run. Other inputs and edits require a new trace.",
+    "planned": "I’m building toward a local-first workspace for inspecting your own PyTorch models."
   },
   "draft": false
 }

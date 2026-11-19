@@ -1,0 +1,187 @@
+.evidence-disclosure {
+  width: fit-content;
+  font-size: .875rem;
+}
+
+.evidence-disclosure summary {
+  display: grid;
+  align-items: center;
+  width: fit-content;
+  min-height: 44px;
+  color: var(--text);
+  font-weight: 750;
+  cursor: pointer;
+  position: relative;
+  border: 1px solid var(--control-border);
+  padding: .4rem .75rem .4rem 2rem;
+  margin-block: .45rem .2rem;
+  list-style: none;
+}
+
+.evidence-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.evidence-disclosure summary > :is(.evidence-show, .evidence-hide) {
+  grid-area: 1 / 1;
+  text-decoration: none;
+}
+
+.evidence-disclosure .evidence-hide,
+.evidence-disclosure[open] .evidence-show {
+  visibility: hidden;
+}
+
+.evidence-disclosure[open] .evidence-hide {
+  visibility: visible;
+}
+
+.evidence-disclosure[open] summary,
+.evidence-disclosure summary:active {
+  color: var(--palette-blue);
+}
+
+.evidence-context, .evidence-transcript {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.fragment-studio {
+  --evidence-ink: #aec2ff;
+}
+
+.fragment-classroom { --evidence-ink: #f6d8b2; }
+.fragment-research { --evidence-ink: #61482e; }
+
+.evidence-note {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+:is(.opening-fragment:has(.evidence-disclosure[open]), .chapter-crop) .evidence-note {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+.timeline-note, .field-note {
+  display: grid;
+  gap: .15rem;
+  font-size: .875rem;
+  line-height: 1.3;
+}
+
+.timeline-note {
+  align-self: center;
+  justify-self: end;
+  max-width: 19ch;
+  margin-inline-start: .6rem;
+  padding: .4rem .55rem;
+  border-left: 1px solid var(--evidence-ink);
+  background: #263127;
+}
+
+.timeline-note strong { color: var(--evidence-ink); }
+
+:is(.fragment-classroom:has(details[open]), .chapter-crop.fragment-classroom) .timeline-states li:nth-child(2) {
+  color: var(--evidence-ink);
+  font-weight: 750;
+}
+
+:is(.fragment-classroom:has(details[open]), .chapter-crop.fragment-classroom) .timeline-states li:nth-child(2)::before {
+  box-shadow: 0 0 0 3px #f6d8b24d;
+}
+
+.trace-kind {
+  display: block;
+  color: var(--evidence-ink);
+}
+
+.trace-source-line {
+  grid-area: 2 / 3 / 4;
+  justify-self: center;
+  width: 1px;
+  background: var(--evidence-ink);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+:is(.fragment-studio:has(details[open]), .chapter-crop.fragment-studio) .trace-source-line {
+  transform: scaleY(1);
+}
+
+:is(.fragment-studio:has(details[open]), .chapter-crop.fragment-studio) code {
+  border-color: var(--evidence-ink);
+  background-color: #303f65;
+}
+
+:is(.fragment-studio:has(details[open]), .chapter-crop.fragment-studio) code span {
+  color: #f3f6ff;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+:is(.fragment-studio:has(details[open]), .chapter-crop.fragment-studio) .trace-attention {
+  border-color: var(--evidence-ink);
+  background-color: #3b4f83;
+}
+
+.field-note {
+  position: absolute;
+  inset: .5rem auto auto .5rem;
+  padding: .2rem .4rem;
+  font-size: .8125rem;
+  border-left: 1px solid var(--evidence-ink);
+  background: #f2e8d0;
+  color: #463321;
+}
+
+.fragment-research:has(details[open]) .assembly-loose {
+  background-color: #f2e3bf;
+  outline: 1px solid var(--evidence-ink);
+  outline-offset: 3px;
+}
+
+.fragment-research:has(details[open]) .assembly-path {
+  color: #51371d;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .evidence-disclosure summary { transition: color 150ms ease; }
+
+  .opening-fragment:has(.evidence-disclosure[open]) .evidence-note {
+    transition: opacity 225ms ease-out 145ms, transform 225ms ease-out 145ms;
+  }
+
+  .trace-source-line { transition: transform 270ms ease-out; }
+  .fragment-trace :is(code, .trace-attention),
+  .fragment-field .assembly-loose {
+    transition: background-color 160ms ease-out;
+  }
+}
+
+@media (forced-colors: active) {
+  .evidence-disclosure[open] summary { color: Highlight; }
+  .trace-source-line { background: CanvasText; }
+}
+
+.evidence-disclosure summary::before, .evidence-disclosure summary::after {
+  content: '';
+  position: absolute;
+  left: .65rem;
+  width: .75rem;
+  height: 1px;
+  background: currentColor;
+}
+.evidence-disclosure:not([open]) summary::after { transform: rotate(90deg); }
+.evidence-disclosure[open] summary { border-color: currentColor; }
+@media (prefers-reduced-motion: no-preference) {
+  .fragment-studio:has(details[open]) .trace-source-line { transition: transform 170ms ease-out 65ms; }
+  .fragment-studio:has(details[open]) .trace-attention { transition: background-color 110ms ease-out 195ms, border-color 110ms ease-out 195ms; }
+  .opening-fragment.fragment-studio:has(details[open]) .trace-kind { transition-delay: 260ms; transition-duration: 150ms; }
+}

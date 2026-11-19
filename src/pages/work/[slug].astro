@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import FragmentArtwork from '../../components/FragmentArtwork.astro';
 import EntryNavigation from '../../components/EntryNavigation.astro';
 import WorkFigure from '../../components/WorkFigure.astro';
 import { getVisibleWork } from '../../data/work';
@@ -14,63 +15,109 @@ export const getStaticPaths = (async () => {
 const { project, entries } = Astro.props as InferGetStaticPropsType<typeof getStaticPaths>;
 const { caseStudy } = project;
 const contribution = caseStudy?.contribution;
-const isComparison = caseStudy?.layout === 'comparison';
+const studio = project.slug === 'mulm-studio';
+const classroom = project.slug === 'classanalyzer';
+const modelSource = 'https://github.com/subhasisjena1643/MuLMStudio/blob/6f7b30afdd68774f2fc4d70545519f019db495b6/serializer.py#L778-L798';
 ---
-<BaseLayout title={`${project.title} · Subhasis Jena`} description={project.summary}>
-  <article class:list={['study', { 'study-spread': caseStudy }]}>
-    <a class="study-back" href="/work/">← Featured work</a>
-    <header class="study-header">
+<BaseLayout title={project.title + ' · Subhasis Jena'} description={project.summary}>
+  <article class="study study-spread chapter-study">
+    <a class="study-back" href="/work/">Featured work</a>
+    <header class="study-header chapter-opener">
       <div>
         <p class="eyebrow">{project.category}{project.draft && ' · Local draft preview'}</p>
         <h1>{project.title}</h1>
         <p class="study-question">{project.question}</p>
-        <p>{project.summary}</p>
-        {(project.demo || project.repository || project.artifact) && <ul class="inline-links">
-          {project.demo && <li><a href={project.demo}>Open demo <span aria-hidden="true">↗</span></a></li>}
-          {project.repository && <li><a href={project.repository}>{project.repositoryLabel ?? `View ${project.title} on GitHub`} <span aria-hidden="true">↗</span></a></li>}
-          {project.artifact && <li><a href={project.artifact.href}>{project.artifact.label} <span aria-hidden="true">↗</span></a></li>}
-        </ul>}
+        {classroom ? <p class="eyebrow">My contribution · Cross-platform CI</p> : <p>{project.summary}</p>}
       </div>
-      {(contribution || project.role || project.draft || project.collaborators?.length || project.date) && <aside class="study-attribution" aria-labelledby="credit-title">
-        <h2 id="credit-title">{contribution || project.role || project.draft ? 'Contribution' : 'Credits'}</h2>
-        {contribution ? (
-          <>
-            <p>{contribution.description}</p>
-            <p class="contribution-date"><time datetime={contribution.date}>{
-              new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeZone: 'UTC' })
-                .format(new Date(contribution.date))
-            }</time> · <a href={contribution.source}>Public commit</a></p>
-            <p><a href="#detail-title">See the design decision <span aria-hidden="true">↓</span></a></p>
-          </>
-        ) : (project.role || project.draft) && <p>{project.role ?? 'Role awaiting confirmation'}</p>}
-        {(project.collaborators?.length || project.draft || project.date) && <dl>
-          {(project.collaborators?.length || project.draft) && <>
-            <dt>Collaborators</dt>
-            <dd>{project.collaborators?.join(', ') || 'Awaiting confirmation'}</dd>
-          </>}
-          {project.date && <><dt>Project date</dt><dd><time datetime={project.date}>{project.date}</time></dd></>}
-        </dl>}
-      </aside>}
+      {studio ? (
+        <figure class="chapter-crop fragment-studio">
+          <FragmentArtwork kind="studio" />
+          <figcaption><strong>Illustrative example</strong> · The call site and graph share one operation, so you can follow the line of code into the trace.</figcaption>
+        </figure>
+      ) : classroom ? (
+            <figure class="chapter-crop fragment-classroom">
+              <FragmentArtwork kind="classroom" />
+              <figcaption><strong>Synthetic timeline</strong> · The countdown locates the unmatched observation. The later match clears the alert, so a reviewer can distinguish a tracking gap from continuous detection.</figcaption>
+            </figure>
+      ) : caseStudy && <WorkFigure figure={caseStudy.scene} eager />}
     </header>
-    {caseStudy ? (
-      <>
-        {isComparison ? (
-          <section class="study-comparison" aria-label="Overview and magnified detail">
-            <WorkFigure figure={caseStudy.scene} eager label="Overview" />
-            <WorkFigure figure={caseStudy.detail} label="Magnified detail" />
-          </section>
-        ) : <WorkFigure figure={caseStudy.scene} eager />}
-        <section class="study-detail section-rule" aria-labelledby="detail-title">
-          <div>
-            {!isComparison && <p class="eyebrow">{contribution ? 'Design decision' : 'Interface behavior'}</p>}
-            <h2 id="detail-title">{caseStudy.decision.title}</h2>
-            <p>{caseStudy.decision.description}</p>
-          </div>
-          {!isComparison && <WorkFigure figure={caseStudy.detail} />}
-        </section>
-        <p class="study-limitation section-rule">{caseStudy.limitation}</p>
-      </>
-    ) : <WorkFigure figure={project.figure} eager />}
+
+    <section class="chapter-section section-rule" aria-labelledby="credit-title">
+      <h2 id="credit-title">Role and credits</h2>
+      <div>
+        {project.role && <p>{project.role}</p>}
+        {contribution && <p>{contribution.description} <a href={contribution.source}>Public contribution</a></p>}
+        {project.collaborators?.map(credit => <p>{credit}</p>)}
+        {classroom && project.provenance[1] && <p><a href={project.provenance[1].source}>View the CI contribution</a></p>}
+      </div>
+    </section>
+
+    {caseStudy && <>
+      <section class="chapter-section section-rule" aria-labelledby="detail-title">
+        <div><p class="eyebrow">Design decision</p><h2 id="detail-title">{caseStudy.decision.title}</h2></div>
+        <p>{caseStudy.decision.description}</p>
+      </section>
+
+      <section class="chapter-section section-rule" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Evidence</h2>
+        <div>
+          {studio ? (
+            <figure class="trace-record">
+              <dl>
+                <div><dt>Source line</dt><dd><code>attn_out, _ = self.attention(x, x, x)</code></dd></div>
+                <div><dt>Graph node</dt><dd><code>MultiheadAttention</code></dd></div>
+                <div><dt>Input edge</dt><dd><code>[2, 128, 512]</code></dd></div>
+              </dl>
+              <figcaption>The input edge records 2 sequences, 128 tokens per sequence and 512 features per token. It makes the dimensions at this exact boundary inspectable.</figcaption>
+            </figure>
+          ) : classroom ? (
+            <WorkFigure figure={caseStudy.scene} />
+          ) : <WorkFigure figure={caseStudy.detail} />}
+          {studio && <p><strong>Public demo scope.</strong> Explore the bundled, precomputed transformer graph. Tracing edited code requires the backend.</p>}
+          <ul class="inline-links">
+            {project.demo && <li><a href={project.demo}>Open the public demo</a></li>}
+            {project.artifact && <li><a href={project.artifact.href}>{project.artifact.label}</a></li>}
+            {studio && <li><a href={modelSource}>View the model source line</a></li>}
+            {project.repository && <li><a href={project.repository}>{project.repositoryLabel ?? 'View repository'}</a></li>}
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter-section section-rule" aria-labelledby="learning-title">
+        <h2 id="learning-title">What I learned</h2>
+        <div>
+          <p>{caseStudy.learning ?? caseStudy.limitation}</p>
+          {caseStudy.planned && <p><strong>Currently building.</strong> {caseStudy.planned}</p>}
+        </div>
+      </section>
+    </>}
+    {!caseStudy && <WorkFigure figure={project.figure} eager />}
     <EntryNavigation entries={entries} slug={project.slug} section="work" />
   </article>
 </BaseLayout>
+
+<style>
+  .chapter-opener { align-items: center; }
+  .chapter-opener h1 { font-size: clamp(3.25rem, 7.4vw, 7rem); }
+  .chapter-crop, .trace-record { margin: 0; min-width: 0; }
+  @media (min-width: 48rem) {
+    .chapter-crop.fragment-classroom :global(.fragment-timeline) { aspect-ratio: 2.55; }
+  }
+  .chapter-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    gap: 1rem var(--gutter);
+    padding-block: clamp(1.75rem, 4vw, 3.25rem);
+  }
+  .chapter-section h2 { font-size: clamp(2rem, 4.1vw, 4rem); }
+  .chapter-section p { max-width: 62ch; margin: 0 0 .75rem; }
+  .chapter-section p:last-child { margin-bottom: 0; }
+  .chapter-crop + p, .trace-record + p { margin-top: 1rem; }
+  .trace-record dl { margin: 0; padding: clamp(1rem, 3vw, 1.75rem); background: #171e32; color: #eff2ff; }
+  .trace-record dl div { display: grid; grid-template-columns: minmax(6rem, 1fr) 3fr; gap: .25rem .75rem; padding-block: .65rem; }
+  .trace-record dl div + div { border-top: 1px solid #66749c; }
+  .trace-record dt { color: #d0dcff; }
+  .trace-record dd { margin: 0; overflow-wrap: anywhere; }
+  @media (max-width: 47.99rem) { .chapter-section { grid-template-columns: 1fr; } }
+  @media (max-width: 31rem) { .trace-record dl div { grid-template-columns: 1fr; } }
+</style>

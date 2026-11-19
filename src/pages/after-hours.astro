@@ -1,0 +1,47 @@
+---
+import PageMeta from "../components/PageMeta.astro";
+import '@fontsource-variable/manrope';
+import '../styles/night.css';
+import Receiver from '../components/Receiver.astro';
+export const prerender=false;
+const shelves=[['IMDb','imdb.com','ATLAS_IMDB_URL'],['Letterboxd','letterboxd.com','ATLAS_LETTERBOXD_URL'],['AniList','anilist.co','ATLAS_ANILIST_URL'],['Steam','steamcommunity.com','ATLAS_STEAM_URL'],['Epic Games','epicgames.com','ATLAS_EPIC_URL']].flatMap(([name,host,key])=>{try{const u=new URL(process.env[key]||'');return u.protocol==='https:' && (u.hostname===host||u.hostname.endsWith('.'+host))?[{name,url:u.href}]:[]}catch{return []}});
+---
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><meta name="theme-color" content="#101427"/><PageMeta title="After Hours · Subhasis Jena" description="A rooftop after dark. Explore a playable scene through arcade, cinema, anime and manga." /></head>
+<body class="night"><header><a href="/arcade/">〈 Back to district</a><Receiver/><a href="/journal/">Journal</a></header>
+<main><section class="cover"><img src="/art/after-hours.webp" alt="A lone figure looks across an ink-blue city beneath a vermilion moon."/><div class="cover-copy"><p>Subhasis Jena / After dark</p><h1>AFTER<br/><em>HOURS</em></h1><a href="#screen">Enter the projection room ↓</a></div></section>
+<section id="screen"><div class="screen-head"><h2>Projection room</h2><span>Choose a medium</span></div>
+<nav class="selector" aria-label="Projection medium">{['Arcade','Cinema','Anime','Manga'].map((name,i)=><button data-channel={name.toLowerCase()} aria-pressed={i===0}>{name}</button>)}</nav>
+<div class="screen-grid"><div id="stage" data-mode="arcade" role="group" aria-label="Interactive rooftop scene">
+<div class="shot"></div><div class="trail"></div><button id="signal" aria-label="Catch the signal" hidden>✣</button>
+<div class="panels" aria-hidden="true"><i></i><i></i><i></i></div></div>
+<div class="director">
+<section data-controls="arcade"><small>GAMES</small><h3>Signal chase</h3><p>Five signals are hiding over the rooftops. Catch each one as it appears.</p><button id="start">Start round</button><output id="score" aria-live="polite"></output></section>
+<section data-controls="cinema" hidden><small>CINEMA</small><h3>The slow push</h3><p>Start with a city. Push in until the shot belongs to one person.</p><label>Camera distance<input id="dolly" type="range" min="100" max="215" value="100"/></label></section>
+<section data-controls="anime" hidden><small>ANIMATION</small><h3>Between frames</h3><p>Follow a spark across the skyline. Switch the timing to feel the difference between held drawings and fluid motion.</p><label>Exposure<select id="exposure"><option value="4">4 drawings / cycle</option><option value="8">8 drawings / cycle</option><option value="24">24 drawings / cycle</option></select></label><button id="play">Play loop</button></section>
+<section data-controls="manga" hidden><small>MANGA</small><h3>The silent page</h3><p id="caption">A city still awake.</p><button id="panel">Turn panel</button><output id="page">Panel 1 of 3</output></section>
+</div></div></section>{shelves.length>0 && <section class="shelves"><h2>On my shelf</h2>{shelves.map(s=><a href={s.url}>{s.name}</a>)}</section>}</main><footer>Subhasis Jena <a href="/">Back to the portfolio</a></footer>
+<script>
+const stage=document.querySelector<HTMLElement>('#stage')!;
+const signal=document.querySelector<HTMLButtonElement>('#signal')!;
+const start=document.querySelector<HTMLButtonElement>('#start')!;
+const play=document.querySelector<HTMLButtonElement>('#play')!;
+let caught=0, began=0, panel=0;
+const score=document.querySelector<HTMLOutputElement>('#score')!;
+const position=()=>{signal.style.left=(12+Math.random()*76)+'%';signal.style.top=(15+Math.random()*65)+'%'};
+start.onclick=()=>{caught=0;began=performance.now();score.textContent='0 / 5 caught';signal.hidden=false;position();signal.focus();start.textContent='Restart round'};
+signal.onclick=()=>{caught++;if(caught===5){signal.hidden=true;score.textContent='5 / 5 in '+((performance.now()-began)/1000).toFixed(1)+' seconds';start.textContent='Play again';start.focus()}else{position();score.textContent=caught+' / 5 caught'}};
+for(const button of document.querySelectorAll<HTMLButtonElement>('[data-channel]'))button.onclick=()=>{
+ const channel=button.dataset.channel!;
+ for(const b of document.querySelectorAll('[data-channel]'))b.setAttribute('aria-pressed',String(b===button));
+ for(const s of document.querySelectorAll<HTMLElement>('[data-controls]'))s.hidden=s.dataset.controls!==channel;
+ stage.dataset.mode=channel;stage.classList.remove('playing');play.textContent='Play loop';signal.hidden=true;start.textContent='Start round';score.textContent='';
+};
+const dolly=document.querySelector<HTMLInputElement>('#dolly')!;
+dolly.oninput=()=>stage.style.setProperty('--zoom',String(Number(dolly.value)/100));
+const exposure=document.querySelector<HTMLSelectElement>('#exposure')!;
+exposure.onchange=()=>stage.style.setProperty('--frames',exposure.value);
+play.onclick=()=>{play.textContent=stage.classList.toggle('playing')?'Pause loop':'Play loop'};
+document.querySelector<HTMLButtonElement>('#panel')!.onclick=()=>{panel=(panel+1)%3;stage.dataset.panel=String(panel);document.querySelector('#page')!.textContent='Panel '+(panel+1)+' of 3';document.querySelector('#caption')!.textContent=['A city still awake.','One window holds the light.','Above the noise, a witness.'][panel]};
+const venueChannel:Record<string,string>={'#screen-books':'manga','#screen-cinema':'cinema','#screen-games':'arcade'};
+const chosen=venueChannel[location.hash];if(chosen){document.querySelector<HTMLButtonElement>('[data-channel="'+chosen+'"]')?.click();document.querySelector('#screen')?.scrollIntoView()}
+</script></body></html>

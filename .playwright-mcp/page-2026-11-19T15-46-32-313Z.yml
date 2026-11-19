@@ -1,0 +1,193 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - link "Subhasis Jena" [ref=e4] [cursor=pointer]:
+      - /url: /
+    - navigation "Main navigation" [ref=e16]:
+      - link "Work" [ref=e17] [cursor=pointer]:
+        - /url: /work/
+      - link "Research" [ref=e18] [cursor=pointer]:
+        - /url: /#research
+      - link "Journal" [ref=e19] [cursor=pointer]:
+        - /url: /journal/
+      - link "About" [ref=e20] [cursor=pointer]:
+        - /url: /about/
+      - link "Say hello" [ref=e21] [cursor=pointer]:
+        - /url: "#contact"
+      - link "Terminal" [ref=e22] [cursor=pointer]:
+        - /url: /terminal/?from=%2F
+        - generic [aria-hidden] [ref=e23]: ">_"
+        - text: Terminal
+  - main [ref=e24]:
+    - region "Subhasis Jena." [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - paragraph [ref=e28]: Atlas of Invisible Things
+          - heading "Subhasis Jena." [level=1] [ref=e29]
+        - generic [ref=e30]:
+          - paragraph [ref=e31]: Software engineer in Bengaluru. I build AI systems and ML tools.
+          - link "Experience & résumé" [ref=e32] [cursor=pointer]:
+            - /url: /about/
+      - link "Read the MuLM Studio case study" [ref=e33] [cursor=pointer]:
+        - /url: /work/mulm-studio/
+        - generic [ref=e35]:
+          - paragraph [ref=e36]: Featured work
+          - generic [ref=e38]:
+            - generic [ref=e39]: MuLM
+            - emphasis [ref=e40]: Studio
+          - paragraph [ref=e41]: A PyTorch model,drawn from its code.
+          - generic [ref=e42]:
+            - text: Read case study
+            - generic [aria-hidden] [ref=e43]: ↗
+        - generic [ref=e44]:
+          - generic [ref=e45]: Founder & engineering lead
+          - generic [ref=e46]: Local-first MVP
+      - generic [ref=e47]:
+        - paragraph [ref=e48]: I design interfaces for things that are hard to see.
+        - link "Explore selected work" [ref=e49] [cursor=pointer]:
+          - /url: "#work"
+          - text: Explore selected work ↓
+    - region "Featured projects" [ref=e50]:
+      - heading "Featured projects" [level=2] [ref=e52]
+      - list [ref=e53]:
+        - listitem [ref=e54]:
+          - link "Open MuLM Studio" [ref=e55] [cursor=pointer]:
+            - /url: /work/mulm-studio/
+            - figure "Editorial illustration · An input edge from the bundled transformer example." [ref=e56]:
+              - img "Input connects to an attention layer along an edge labeled 2 by 128 by 512." [ref=e58]:
+                - generic [aria-hidden] [ref=e59]:
+                  - generic [ref=e60]: "[2, 128, 512]"
+                  - generic [ref=e61]: Input
+                  - generic [ref=e63]: Attention
+          - generic [ref=e64]:
+            - paragraph [ref=e65]: PyTorch workspace · Demo
+            - heading "MuLM Studio" [level=3] [ref=e66]
+          - generic [ref=e67]:
+            - paragraph [ref=e68]: What does a PyTorch model look like as a graph you can inspect?
+            - paragraph [ref=e69]: In the demo, edit a PyTorch model in the editor. With the tracing backend running, MuLM Studio captures operations and tensor shapes and draws them on the canvas so you can inspect how the model connects.
+          - generic [ref=e70]:
+            - link "Read the MuLM Studio study" [ref=e71] [cursor=pointer]:
+              - /url: /work/mulm-studio/
+              - text: Read the MuLM Studio study ↗
+            - link "Open demo" [ref=e72] [cursor=pointer]:
+              - /url: https://demo-eta-rose-13.vercel.app/
+              - text: Open demo ↗
+            - link "View demo source" [ref=e73] [cursor=pointer]:
+              - /url: https://github.com/MuLMStudio/demo
+              - text: View demo source ↗
+        - listitem [ref=e74]:
+          - link "Open ClassAnalyzer" [ref=e75] [cursor=pointer]:
+            - /url: /work/classanalyzer/
+            - figure "Editorial illustration · A synthetic example of one tracking ID across two overlay states." [ref=e76]:
+              - img "Two mock overlay states show the same fictional track first detected, then missing with a countdown." [ref=e78]:
+                - generic [aria-hidden] [ref=e79]:
+                  - generic [ref=e80]:
+                    - text: Session overlay
+                    - generic [ref=e81]: Synthetic
+                  - generic [ref=e82]:
+                    - generic [ref=e83]: Track 01
+                    - generic [ref=e84]: Detected
+                  - generic [ref=e85]:
+                    - generic [ref=e86]: Track 01
+                    - generic [ref=e87]: Missing · 26 s
+          - generic [ref=e88]:
+            - paragraph [ref=e89]: Classroom analysis
+            - heading "ClassAnalyzer" [level=3] [ref=e90]
+          - generic [ref=e91]:
+            - paragraph [ref=e92]: How can someone make sense of a classroom session through the interface?
+            - paragraph [ref=e93]: ClassAnalyzer is a classroom observation prototype. Its camera overlay keeps a tracking ID in view and starts a countdown if the track goes missing. The countdown gives a reviewer a concrete moment to check.
+          - generic [ref=e94]:
+            - link "Read the ClassAnalyzer study" [ref=e95] [cursor=pointer]:
+              - /url: /work/classanalyzer/
+              - text: Read the ClassAnalyzer study ↗
+            - link "View ClassAnalyzer on GitHub" [ref=e96] [cursor=pointer]:
+              - /url: https://github.com/subhasisjena1643/classanalyzer
+              - text: View ClassAnalyzer on GitHub ↗
+    - region "CrowdVision" [ref=e97]:
+      - generic [ref=e98]:
+        - paragraph [ref=e99]: Team project · ML evaluation
+        - heading "CrowdVision" [level=2] [ref=e100]
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - term [ref=e104]: My role
+            - definition [ref=e105]: Machine learning experiments and evaluation
+          - generic [ref=e106]:
+            - term [ref=e107]: My teammates’ role
+            - definition [ref=e108]: Frontend and backend development
+        - paragraph [ref=e109]: On ShanghaiTech Part A, my attention-augmented CSRNet reduced mean absolute error from 81.73 to 73.92. The team used my evaluation scores. Time constraints kept my ML pipeline out of the final application.
+        - list [ref=e110]:
+          - listitem [ref=e111]:
+            - link "My ML experiments" [ref=e112] [cursor=pointer]:
+              - /url: https://github.com/subhasisjena1643/crowdvision
+              - text: My ML experiments
+              - generic [aria-hidden] [ref=e113]: ↗
+          - listitem [ref=e114]:
+            - link "Team application source" [ref=e115] [cursor=pointer]:
+              - /url: https://github.com/Zoroh26/Major-Project
+              - text: Team application source
+              - generic [aria-hidden] [ref=e116]: ↗
+    - region "MuScope" [ref=e117]:
+      - generic [ref=e118]:
+        - paragraph [ref=e119]: Currently building
+        - heading "MuScope" [level=2] [ref=e120]
+      - generic [ref=e121]:
+        - paragraph [ref=e122]: Evidence from a program run for coding assistants.
+        - paragraph [ref=e123]: Planning and documentation are complete. MuScope is designed to show an assistant which step failed and what the program reported. MuLM Studio gives people a graph they can inspect while working with PyTorch code.
+    - region "Research notes" [ref=e124]:
+      - heading "Research notes" [level=2] [ref=e126]
+      - list [ref=e127]:
+        - listitem [ref=e128]:
+          - paragraph [ref=e129]: Research proposal
+          - heading [level=3] [ref=e130]:
+            - link "Programmable Magnetic Assembly" [ref=e131] [cursor=pointer]:
+              - /url: /research/programmable-magnetic-assembly/
+          - paragraph [ref=e132]: Can small magnetic units form a planar structure by following local rules?
+          - paragraph [ref=e133]: In a proposed 2D simulation, I would compare staged switching with fixed interfaces under the same starting conditions and energy budget. I would measure completion rate and assembly time on held-out starting configurations, including failures and timeouts.
+        - listitem [ref=e134]:
+          - paragraph [ref=e135]: Architecture hypothesis
+          - heading [level=3] [ref=e136]:
+            - link "Tissue-Based Language Models" [ref=e137] [cursor=pointer]:
+              - /url: /research/tissue-based-language-models/
+          - paragraph [ref=e138]: Can a group of compressed language models recover accuracy that each model loses on its own?
+          - paragraph [ref=e139]: I would begin with one group on a narrow task. On the same held-out examples, I would compare the group with a single compressed model and the original checkpoint. Task accuracy, memory use and response latency would show what the group gains and what it costs.
+    - region "Journal" [ref=e140]:
+      - generic [ref=e141]:
+        - paragraph [ref=e142]: Journal
+        - link "All entries" [ref=e143] [cursor=pointer]:
+          - /url: /journal/
+      - article [ref=e144]:
+        - paragraph [ref=e145]:
+          - text: Progress ·
+          - time [ref=e146]: 2026-11-19
+        - heading [level=2] [ref=e147]:
+          - link "The second exposure" [ref=e148] [cursor=pointer]:
+            - /url: /journal/the-second-exposure/
+        - paragraph [ref=e149]: What happens when a portfolio lets a little of its night life into the frame?
+    - region "About" [ref=e150]:
+      - heading "About" [level=2] [ref=e151]
+      - generic [ref=e152]:
+        - paragraph [ref=e153]: I’m based in Bengaluru. My background in electronics and communication informs how I work across interfaces, model tooling and systems diagnostics.
+        - link "More about me" [ref=e154] [cursor=pointer]:
+          - /url: /about/
+          - text: More about me
+          - generic [aria-hidden] [ref=e155]: ↗
+  - contentinfo [ref=e156]:
+    - generic [ref=e157]:
+      - generic [ref=e158]:
+        - heading "Say hello" [level=2] [ref=e159]
+        - paragraph [ref=e160]: Subhasis Jena · Bengaluru
+        - list [ref=e161]:
+          - listitem [ref=e162]:
+            - link "LinkedIn" [ref=e163] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/subhasisjena/
+              - text: LinkedIn
+              - generic [aria-hidden] [ref=e164]: ↗
+          - listitem [ref=e165]:
+            - link "GitHub" [ref=e166] [cursor=pointer]:
+              - /url: https://github.com/subhasisjena1643
+              - text: GitHub
+              - generic [aria-hidden] [ref=e167]: ↗
+      - link "Explore Bengaluru after hours" [ref=e169] [cursor=pointer]:
+        - /url: /arcade/

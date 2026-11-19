@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+export const prerender=false;
+import {getEntries} from '../../data/journal';
+const entries=getEntries();
+---
+<BaseLayout title="Journal · Subhasis Jena" description="Progress, essays and research from the studio.">
+<header class="journal-head"><p class="eyebrow">Subhasis Jena’s notebook</p><h1>Journal<span>.</span></h1>
+</header>
+<ul class="journal-list">{entries.map(post=><li><small>{post.category} · <time>{post.date}</time></small><div><h2 style={{viewTransitionName:'entry-'+post.slug}}><a href={'/journal/'+post.slug+'/'}>{post.title}</a></h2><p>{post.excerpt}</p></div></li>)}</ul>
+</BaseLayout>

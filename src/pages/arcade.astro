@@ -1,0 +1,27 @@
+---
+import PageMeta from "../components/PageMeta.astro";
+export const prerender=false;
+import '@fontsource/press-start-2p/latin-400.css';
+import '../styles/district.css';
+import {venues} from '../data/district';
+import {getEntries} from '../data/journal';
+import Receiver from '../components/Receiver.astro';
+const entries=getEntries();
+const profiles=[['IMDb','imdb.com','ATLAS_IMDB_URL','cinema'],['Letterboxd','letterboxd.com','ATLAS_LETTERBOXD_URL','cinema'],['AniList','anilist.co','ATLAS_ANILIST_URL','books'],['Steam','steamcommunity.com','ATLAS_STEAM_URL','games'],['Epic Games','epicgames.com','ATLAS_EPIC_URL','games']].flatMap(([name,domain,key,venue])=>{try{const url=new URL(process.env[key]||'');return url.protocol==='https:'&&(url.hostname===domain||url.hostname.endsWith('.'+domain))?[{name,url:url.href,venue}]:[]}catch{return []}});
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><meta name="theme-color" content="#16213e"/><PageMeta title="Bengaluru After Hours · Subhasis Jena" description="A playable voxel district in Bengaluru with a cinema, manga bookshop, arcade and coffee shop." /></head>
+<body class="district"><header class="titlebar"><a href="/">◀ Atlas</a><span data-device>▦ &nbsp; SOLARCADE / CITY.EXE</span><button id="directory">Map</button></header>
+<main class="game-frame"><canvas id="world" tabindex="0" aria-label="Playable voxel Bengaluru. Use WASD or arrow keys to walk, space to jump, E to explore a nearby venue."></canvas>
+<div class="city-id"><small>INDIA &nbsp; // &nbsp; KA</small><h1>BENGALURU<br/><em>AFTER HOURS</em></h1></div>
+<div class="clock"><time id="local-time">--:--</time><span id="sky">LOCAL TIME</span></div>
+<div class="tickets" aria-live="polite">Metro tokens &nbsp;<b id="count">0 / 3</b></div>
+<div class="hint" id="hint" role="status">Walk to a storefront to explore.</div>
+<div class="pad" aria-label="Movement controls">{[['up','▲'],['left','◀'],['down','▼'],['right','▶']].map(([k,t])=><button data-move={k} aria-label={'Move '+k}>{t}</button>)}</div><div class="actions"><button id="jump">Jump</button><button id="interact">Explore</button></div>
+</main><footer><span><kbd>WASD</kbd> Walk &nbsp; <kbd>Space</kbd> Jump &nbsp; <kbd>E</kbd> Explore</span><a href="/after-hours/">Rooftop cinema</a></footer>
+<dialog id="map"><div class="windowbar">DISTRICT MAP <button data-close aria-label="Close map">×</button></div><div class="windowbody"><h2>Choose a stop</h2><div class="map-grid">{venues.map(v=><button data-travel={v.id}><small>{v.kind}</small>{v.name}</button>)}</div></div></dialog>
+<dialog id="venue"><div class="windowbar">BENGALURU / DIRECTORY <button data-close aria-label="Close stop">×</button></div><div class="windowbody">{venues.map(v=><section data-venue={v.id} hidden><small>{v.kind}</small><h2>{v.name}</h2>
+{entries.filter(p=>p.category===v.category||(v.id==='cafe'&&p.category==='Recommendation')).map(p=><article><small>{p.category} · {p.date}</small><h3><a href={'/journal/'+p.slug+'/'}>{p.title}</a></h3><p>{p.excerpt}</p></article>)}
+<article><small>District pick</small><h3>{v.pick}</h3><p>{v.note}</p><a href={v.link+(v.id==='cafe'?'':'-'+v.id)} data-roof={v.id}>{v.label}</a></article>
+{v.id==='games'&&<article id="prize" hidden><small>Metro token reward</small><h3>Golden hour jacket</h3><button id="wear">Wear jacket</button></article>}
+{profiles.filter(p=>p.venue===v.id).map(p=><a class="profile" href={p.url}>{p.name}</a>)}</section>)}</div></dialog><Receiver/>
+<script>import '../game/district';</script></body></html>

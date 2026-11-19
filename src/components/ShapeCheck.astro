@@ -1,0 +1,25 @@
+<figure class="shape-check" data-fit="false">
+  <figcaption><strong>Projection check</strong><span>Illustrative trace</span></figcaption>
+  <div class="trace" aria-hidden="true"><div><small>Output width</small><b data-width>128</b></div><i></i><div><small>Linear input</small><b>64</b></div></div>
+  <div class="trace-readout"><p role="status">Mismatch. The projection expects 64 features and receives 128.</p>
+    <fieldset hidden><legend>Set output width</legend><label><input name="width" type="radio" value="128" checked />128</label><label><input name="width" type="radio" value="64" />64</label></fieldset>
+  </div>
+</figure>
+<script>
+const panel = document.querySelector<HTMLElement>('.shape-check');
+if (panel) {
+  panel.querySelector('fieldset')!.hidden = false;
+  panel.addEventListener('change', e => {
+    const width = (e.target as HTMLInputElement).value;
+    const fits = width === '64';
+    panel.dataset.fit = String(fits);
+    panel.querySelector('[data-width]')!.textContent = width;
+    panel.querySelector('[role=status]')!.textContent = fits
+      ? 'Match. The output supplies the 64 features the projection expects.'
+      : 'Mismatch. The projection expects 64 features and receives 128.';
+  });
+}
+</script>
+<style>
+.shape-check{background:#211e32;color:#f3e9de;margin:0}.shape-check figcaption{padding:1rem 1.25rem;display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid #ffffff30;color:#e4dbdd}.shape-check figcaption span{font:.78rem/1.5 monospace}.trace{display:flex;align-items:center;justify-content:center;padding:clamp(1.35rem,3vw,3rem) 1rem;--line:#f6b492}.trace div{border:1px solid #796f87;padding:.8rem;text-align:center;min-width:5.6rem}.trace small{font:.76rem monospace;display:block}.trace b{font:400 clamp(2.6rem,5vw,5rem)/1.2 var(--font-display)}.trace i{width:23%;height:1px;background:repeating-linear-gradient(90deg,var(--line) 0 4px,transparent 4px 8px);position:relative}.trace i:after{position:absolute;content:'×';color:var(--line);background:#211e32;top:50%;left:50%;transform:translate(-50%,-50%);font:1.5rem monospace}.shape-check[data-fit=true] .trace i{background:#afe0be}.shape-check[data-fit=true] .trace i:after{content:'✓';color:#afe0be}.trace-readout{border-top:1px solid #ffffff30;padding:1rem 1.25rem}.trace-readout p{margin:0;font-size:.96rem}.trace-readout fieldset{margin:.85rem 0 0;border:0;padding:0}.trace-readout legend{font-size:.8rem;color:#d1c7d2}.trace-readout label{display:inline-flex;align-items:center;gap:.25rem;margin-right:.7rem;min-height:44px;cursor:pointer}.trace-readout input{accent-color:#ffbd98}
+</style>
